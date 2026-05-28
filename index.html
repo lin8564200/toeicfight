@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC 800 單字攻略</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1410;
+  --paper:#f4ece0;
+  --paper2:#ece0cf;
+  --accent:#c8482b;
+  --accent2:#1f6b54;
+  --gold:#c89b3c;
+  --shadow:rgba(26,20,16,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Noto Sans TC',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(200,72,43,.05), transparent 40%),
+    radial-gradient(circle at 88% 82%, rgba(31,107,84,.05), transparent 40%);
+  min-height:100vh;
+  line-height:1.5;
+}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.4;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:2}
+
+/* HEADER */
+header{text-align:center;padding:28px 0 18px;border-bottom:3px solid var(--ink);position:relative}
+header .kicker{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
+header h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(34px,8vw,58px);line-height:.95;margin:6px 0 4px;letter-spacing:-.02em}
+header h1 em{font-style:italic;color:var(--accent)}
+header .sub{font-family:'Space Mono',monospace;font-size:12px;color:#6b5d4d;letter-spacing:.1em}
+
+/* PROGRESS BAR */
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}
+.stat{background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:12px 8px;text-align:center;box-shadow:3px 3px 0 var(--shadow)}
+.stat .n{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(22px,5vw,30px);line-height:1}
+.stat .l{font-size:10px;letter-spacing:.08em;color:#6b5d4d;margin-top:3px}
+.stat.goal .n{color:var(--accent2)}
+.stat.streak .n{color:var(--gold)}
+
+.dayring{margin:6px 0 18px}
+.dayring .track{height:14px;background:var(--paper2);border:2px solid var(--ink);border-radius:20px;overflow:hidden}
+.dayring .fill{height:100%;background:repeating-linear-gradient(45deg,var(--accent2),var(--accent2) 8px,#258a6c 8px,#258a6c 16px);width:0;transition:width .6s cubic-bezier(.4,1.3,.5,1)}
+.dayring .lab{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;color:#6b5d4d}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin:18px 0;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--paper2)}
+.tabs button{flex:1;padding:12px 2px;background:none;border:none;font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:12px;cursor:pointer;color:var(--ink);transition:.2s;border-right:2px solid var(--ink)}
+
+/* GRAMMAR */
+.g-menu{display:grid;gap:10px;margin-bottom:16px}
+.g-card{background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:16px 18px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:.12s;display:flex;align-items:center;gap:14px}
+.g-card:active{transform:translate(2px,2px);box-shadow:none}
+.g-card .ico{font-size:28px;flex-shrink:0}
+.g-card .gt{font-family:'Fraunces',serif;font-weight:900;font-size:19px}
+.g-card .gd{font-size:12px;color:#6b5d4d;margin-top:2px}
+.g-card .done{margin-left:auto;color:var(--accent2);font-size:18px;display:none}
+.g-card.studied .done{display:block}
+.lesson{display:none}
+.lesson.active{display:block;animation:fade .35s ease}
+.lesson h2{font-family:'Fraunces',serif;font-weight:900;font-size:26px;margin:4px 0 4px;letter-spacing:-.01em}
+.lesson .back{font-family:'Space Mono',monospace;font-size:12px;cursor:pointer;color:var(--accent);margin-bottom:10px;display:inline-block;border:none;background:none}
+.lesson h3{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:20px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--ink)}
+.lesson p{font-size:14.5px;line-height:1.85;margin:8px 0}
+.lesson ul{margin:8px 0 8px 4px;list-style:none}
+.lesson li{font-size:14px;line-height:1.8;padding-left:18px;position:relative;margin:5px 0}
+.lesson li:before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.eg{background:var(--paper2);border-left:4px solid var(--accent2);border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 0;font-size:14px;line-height:1.9}
+.eg .en{font-weight:600}
+.eg .zh{color:#6b5d4d;font-size:13px}
+.eg b{color:var(--accent2)}
+.trap{background:#fbeee9;border:2px dashed var(--accent);border-radius:12px;padding:12px 16px;margin:12px 0}
+.trap .tt{font-weight:700;color:var(--accent);font-size:13px;margin-bottom:4px}
+.trap .x{color:var(--accent);font-weight:600}
+.trap .o{color:var(--accent2);font-weight:600}
+.gq{background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:3px 3px 0 var(--shadow)}
+.gq .qtext{font-size:15px;margin-bottom:12px;line-height:1.7}
+.gq .gblank{color:var(--accent);font-weight:700;letter-spacing:1px}
+.gopts{display:grid;gap:8px}
+.gopt{padding:11px 14px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);cursor:pointer;font-size:14px;text-align:left;transition:.12s}
+.gopt:hover{transform:translateX(2px)}
+.gopt.correct{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.gopt.wrong{background:var(--accent);color:#fff;border-color:var(--accent)}
+.gexp{font-size:13px;color:#4a3f33;margin-top:10px;padding-top:10px;border-top:1px dashed #b5a48f;display:none;line-height:1.75}
+.gexp.show{display:block}
+.complete-btn{width:100%;padding:13px;margin-top:18px}
+
+/* IMPORT */
+.import-box{background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:3px 3px 0 var(--shadow)}
+.import-box textarea{width:100%;min-height:90px;border:2px solid var(--ink);border-radius:10px;padding:10px;font-family:'Space Mono',monospace;font-size:12px;background:var(--paper);resize:vertical}
+.import-box .hint{font-size:12px;color:#6b5d4d;line-height:1.7;margin:6px 0 10px}
+.import-box code{background:var(--ink);color:var(--paper);padding:1px 6px;border-radius:4px;font-size:11px}
+
+/* MINI QUIZ MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,20,16,.6);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}
+.modal-bg.show{display:flex;animation:fade .25s ease}
+.modal{background:var(--paper);border:3px solid var(--ink);border-radius:22px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:8px 8px 0 rgba(26,20,16,.3);padding:24px 22px}
+.modal .mhead{text-align:center;margin-bottom:6px}
+.modal .mkicker{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.25em;color:var(--accent);text-transform:uppercase}
+.modal .mtitle{font-family:'Fraunces',serif;font-weight:900;font-size:26px;margin:4px 0;letter-spacing:-.01em}
+.modal .mprog{font-family:'Space Mono',monospace;font-size:12px;color:#6b5d4d;text-align:center;margin-bottom:14px}
+.mq-type{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--accent2);text-transform:uppercase;margin-bottom:8px}
+.mq-word{font-family:'Space Mono',monospace;font-size:12px;color:#8a7c6c;margin-bottom:10px}
+.mq-text{font-size:16px;line-height:1.7;margin-bottom:14px}
+.mq-blank{color:var(--accent);font-weight:700;letter-spacing:1px}
+.mq-opts{display:grid;gap:9px}
+.mq-opt{padding:12px 15px;border:2px solid var(--ink);border-radius:11px;background:var(--paper2);cursor:pointer;font-size:15px;text-align:left;transition:.12s;box-shadow:2px 2px 0 var(--shadow)}
+.mq-opt:hover:not(:disabled){transform:translateX(3px)}
+.mq-opt.correct{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.mq-opt.wrong{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mq-opt:disabled{cursor:default}
+/* 重組題 */
+.ord-answer{min-height:54px;border:2px dashed var(--ink);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;background:var(--paper2)}
+.ord-bank{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.chip{padding:8px 13px;border:2px solid var(--ink);border-radius:9px;background:var(--paper);cursor:pointer;font-size:14px;font-weight:500;transition:.12s;box-shadow:2px 2px 0 var(--shadow)}
+.chip:active{transform:translate(2px,2px);box-shadow:none}
+.chip.placed{background:var(--ink);color:var(--paper)}
+.ord-check{width:100%;padding:11px;margin-bottom:6px}
+.mq-exp{font-size:13px;color:#4a3f33;margin-top:12px;padding:11px 13px;background:#fdf6ee;border-left:4px solid var(--accent2);border-radius:0 8px 8px 0;line-height:1.7;display:none}
+.mq-exp.show{display:block}
+.mq-exp b{color:var(--accent2)}
+.exp-sentence{font-size:15px;color:var(--ink);line-height:1.6;margin-bottom:6px}
+.exp-sentence b{color:var(--accent2);font-weight:700}
+.exp-trans{font-size:14px;color:#6b5d4d;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed #cbb89f}
+.exp-note{font-size:13px;line-height:1.7}
+.modal .mnext{margin-top:14px;display:none}
+.modal .mnext.show{display:block}
+.mresult{text-align:center;padding:14px 0}
+.mresult .rscore{font-family:'Fraunces',serif;font-weight:900;font-size:60px;color:var(--accent2);line-height:1}
+.mresult .rmsg{font-size:15px;margin:10px 0 16px;line-height:1.6}
+.tabs button:last-child{border-right:none}
+.tabs button.active{background:var(--ink);color:var(--paper)}
+.tabs button:hover:not(.active){background:rgba(26,20,16,.08)}
+
+.panel{display:none;animation:fade .35s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* CONTROLS */
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.ctrl label{font-family:'Space Mono',monospace;font-size:12px}
+select,.btn{font-family:'Noto Sans TC',sans-serif;font-weight:700;border:2px solid var(--ink);border-radius:10px;padding:8px 14px;background:var(--paper);cursor:pointer;font-size:13px;color:var(--ink)}
+.btn{box-shadow:2px 2px 0 var(--shadow);transition:.12s}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.sec{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+
+/* FLASHCARD */
+.card-stage{perspective:1400px;margin:10px 0 18px}
+.flashcard{position:relative;width:100%;min-height:300px;cursor:pointer;transition:transform .6s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flashcard.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border:3px solid var(--ink);border-radius:22px;padding:30px 26px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:6px 6px 0 var(--shadow)}
+.face.front{background:var(--paper2)}
+.face.back{background:var(--ink);color:var(--paper);transform:rotateY(180deg)}
+.face .pos{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.face.back .pos{color:var(--gold)}
+.word{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(36px,9vw,56px);line-height:1;text-align:center;letter-spacing:-.02em}
+.phon{font-family:'Space Mono',monospace;font-size:14px;color:#6b5d4d;margin-top:10px}
+.face.back .mean{font-family:'Fraunces',serif;font-size:clamp(26px,6vw,36px);text-align:center;margin-bottom:14px}
+.face.back .ex{font-size:14px;text-align:center;opacity:.85;font-style:italic;max-width:90%;line-height:1.6}
+.face.back .ex b{color:var(--gold);font-style:normal}
+.tap-hint{position:absolute;bottom:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;opacity:.45}
+.flag-badge{position:absolute;top:14px;right:16px;font-size:20px;display:none}
+.flashcard.is-flagged .flag-badge{display:block}
+
+.card-nav{display:flex;gap:10px;align-items:center;justify-content:center}
+.card-nav .btn{flex:1;max-width:130px}
+.card-counter{font-family:'Space Mono',monospace;font-size:13px;min-width:74px;text-align:center}
+.card-actions{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+/* WORDLIST */
+.search{width:100%;padding:11px 14px;border:2px solid var(--ink);border-radius:12px;font-size:14px;margin-bottom:14px;font-family:'Noto Sans TC',sans-serif;background:var(--paper)}
+.wl-item{display:flex;align-items:center;gap:12px;background:var(--paper2);border:2px solid var(--ink);border-radius:12px;padding:11px 14px;margin-bottom:9px;box-shadow:2px 2px 0 var(--shadow)}
+.wl-item .w{font-family:'Fraunces',serif;font-weight:600;font-size:19px}
+.wl-item .p{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase}
+.wl-item .m{font-size:13px;color:#4a3f33;margin-top:2px}
+.wl-item .meta{flex:1;min-width:0}
+.wl-item .flag,.wl-item .know{border:2px solid var(--ink);background:var(--paper);border-radius:8px;width:36px;height:36px;font-size:16px;cursor:pointer;flex-shrink:0}
+.wl-item.flagged{border-color:var(--accent);box-shadow:2px 2px 0 rgba(200,72,43,.3)}
+.wl-item.flagged .flag{background:var(--accent);}
+.wl-item.known{opacity:.55}
+.wl-item.known .know{background:var(--accent2)}
+
+/* QUIZ */
+.quiz-q{background:var(--paper2);border:3px solid var(--ink);border-radius:20px;padding:26px 22px;margin-bottom:16px;text-align:center;box-shadow:5px 5px 0 var(--shadow)}
+.quiz-q .qword{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,8vw,46px)}
+.quiz-q .qph{font-family:'Space Mono',monospace;font-size:13px;color:#6b5d4d;margin-top:6px}
+.quiz-q .qprompt{font-size:12px;letter-spacing:.1em;color:var(--accent);margin-bottom:10px;font-family:'Space Mono',monospace}
+.opts{display:grid;gap:10px}
+.opt{padding:14px 16px;border:2px solid var(--ink);border-radius:12px;background:var(--paper2);cursor:pointer;font-size:15px;text-align:left;font-weight:500;transition:.15s;box-shadow:2px 2px 0 var(--shadow)}
+.opt:hover{transform:translateX(3px)}
+.opt.correct{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.opt.wrong{background:var(--accent);color:#fff;border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.quiz-bar{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;margin-bottom:14px}
+.quiz-result{text-align:center;padding:30px 20px}
+.quiz-result .score{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(50px,14vw,80px);color:var(--accent2);line-height:1}
+.quiz-result .msg{font-size:16px;margin:10px 0 20px}
+
+.empty{text-align:center;padding:50px 20px;color:#6b5d4d;font-family:'Space Mono',monospace;font-size:13px}
+footer{text-align:center;margin-top:40px;font-family:'Space Mono',monospace;font-size:11px;color:#8a7c6c;letter-spacing:.1em}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:30px;font-size:14px;font-weight:700;opacity:0;transition:.3s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+  <header>
+    <div class="kicker">600 → 800 分突破計畫</div>
+    <h1>多益<em>單字</em>攻略</h1>
+    <div class="sub">TOEIC VOCABULARY · DAILY DRILL</div>
+  </header>
+
+  <div class="statbar">
+    <div class="stat"><div class="n" id="s-today">0</div><div class="l">今日已背</div></div>
+    <div class="stat goal"><div class="n" id="s-known">0</div><div class="l">已熟記</div></div>
+    <div class="stat"><div class="n" id="s-flag">0</div><div class="l">標記中</div></div>
+    <div class="stat streak"><div class="n" id="s-streak">0</div><div class="l">連續天數</div></div>
+  </div>
+
+  <div class="dayring">
+    <div class="track"><div class="fill" id="dayfill"></div></div>
+    <div class="lab"><span>今日目標</span><span id="daylab">0 / 30</span></div>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="flash">閃卡</button>
+    <button data-tab="quiz">測驗</button>
+    <button data-tab="grammar">文法</button>
+    <button data-tab="list">單字表</button>
+    <button data-tab="stats">進度</button>
+  </div>
+
+  <!-- FLASHCARD -->
+  <div class="panel active" id="flash">
+    <div class="ctrl">
+      <label>範圍</label>
+      <select id="flash-scope">
+        <option value="all">全部單字</option>
+        <option value="unknown">尚未熟記</option>
+        <option value="flagged">已標記</option>
+      </select>
+      <button class="btn" id="shuffle">🔀 隨機</button>
+    </div>
+    <p style="font-size:12px;color:#6b5d4d;font-family:'Space Mono',monospace;margin:-6px 0 12px">💡 每背滿 10 個字會跳出文法小測驗</p>
+    <div class="card-stage">
+      <div class="flashcard" id="card">
+        <div class="face front">
+          <span class="flag-badge">🚩</span>
+          <div class="pos" id="f-pos"></div>
+          <div class="word" id="f-word"></div>
+          <div class="phon" id="f-phon"></div>
+          <div class="tap-hint">點擊翻面 ↻</div>
+        </div>
+        <div class="face back">
+          <div class="pos" id="b-pos"></div>
+          <div class="mean" id="b-mean"></div>
+          <div class="ex" id="b-ex"></div>
+          <div class="tap-hint">點擊翻面 ↻</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-nav">
+      <button class="btn" id="prev">← 上一個</button>
+      <span class="card-counter" id="counter">1 / 1</span>
+      <button class="btn" id="next">下一個 →</button>
+    </div>
+    <div class="card-actions">
+      <button class="btn" id="flag-btn">🚩 標記不熟</button>
+      <button class="btn sec" id="known-btn">✓ 我記住了</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="panel" id="quiz">
+    <div id="quiz-setup">
+      <div class="ctrl">
+        <label>題數</label>
+        <select id="quiz-len"><option>10</option><option>15</option><option>20</option></select>
+        <label>方向</label>
+        <select id="quiz-dir">
+          <option value="en2zh">看英文選中文</option>
+          <option value="zh2en">看中文選英文</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>出題範圍</label>
+        <select id="quiz-scope">
+          <option value="all">全部單字</option>
+          <option value="unknown">尚未熟記</option>
+          <option value="flagged">已標記</option>
+        </select>
+      </div>
+      <button class="btn pri" id="start-quiz" style="width:100%;padding:14px">開始測驗 →</button>
+    </div>
+    <div id="quiz-play" style="display:none">
+      <div class="quiz-bar"><span id="q-progress">1 / 10</span><span id="q-score">✓ 0</span></div>
+      <div class="quiz-q">
+        <div class="qprompt" id="q-prompt"></div>
+        <div class="qword" id="q-word"></div>
+        <div class="qph" id="q-ph"></div>
+      </div>
+      <div class="opts" id="q-opts"></div>
+    </div>
+    <div id="quiz-done" style="display:none">
+      <div class="quiz-result">
+        <div class="score" id="q-final">0%</div>
+        <div class="msg" id="q-msg"></div>
+        <button class="btn pri" id="quiz-again" style="padding:13px 30px">再測一次</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="panel" id="grammar">
+    <div id="g-menu-view">
+      <p style="font-size:13px;color:#6b5d4d;margin-bottom:14px;font-family:'Space Mono',monospace">選一課開始 · 先看講解，再做練習題</p>
+      <div class="g-menu" id="g-menu"></div>
+    </div>
+    <div id="g-lesson-view"></div>
+  </div>
+
+  <!-- LIST -->
+  <div class="panel" id="list">
+    <div class="import-box">
+      <div class="hint">📥 <b>自行擴充單字</b>：每行一個字，用逗號分隔，格式為<br><code>英文,詞性,音標,中文,例句</code><br>例：<code>negotiate,v.,/nɪˈɡəʊʃieɪt/,談判,We need to negotiate.</code>（後三項可省略）</div>
+      <textarea id="import-text" placeholder="acquire,v.,/əˈkwaɪər/,取得,The firm will acquire a rival.&#10;merger,n.,/ˈmɜːdʒər/,合併,The merger was approved."></textarea>
+      <button class="btn pri" id="import-btn" style="margin-top:8px">＋ 匯入單字</button>
+    </div>
+    <input class="search" id="search" placeholder="🔍 搜尋單字或中文意思…">
+    <div class="ctrl">
+      <select id="list-filter">
+        <option value="all">全部</option>
+        <option value="unknown">尚未熟記</option>
+        <option value="known">已熟記</option>
+        <option value="flagged">已標記</option>
+      </select>
+      <span class="card-counter" id="list-count"></span>
+    </div>
+    <div id="wordlist"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="panel" id="stats">
+    <div class="statbar" style="grid-template-columns:repeat(2,1fr)">
+      <div class="stat goal"><div class="n" id="st-pct">0%</div><div class="l">總體熟記率</div></div>
+      <div class="stat"><div class="n" id="st-total">0</div><div class="l">單字總數</div></div>
+    </div>
+    <div class="dayring">
+      <div class="track"><div class="fill" id="st-fill" style="background:repeating-linear-gradient(45deg,var(--gold),var(--gold) 8px,#dab85c 8px,#dab85c 16px)"></div></div>
+      <div class="lab"><span>邁向 800 分的單字進度</span><span id="st-lab">0 / 0</span></div>
+    </div>
+    <div style="background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:18px 16px;margin-top:6px;box-shadow:3px 3px 0 var(--shadow)">
+      <p style="font-size:14px;line-height:1.8">📚 <b>學習建議：</b>每天背 <b>30 個</b>，先用「閃卡」按「下一個」一路看下去。<b>每背滿 10 個字，會自動跳出一個文法小測驗</b>，用你剛背的字考時態、詞性、介系詞搭配等，練的是「會用」而不只是「會背」。遇到不熟的點「🚩 標記不熟」，隔天用「測驗」複習。穩定累積，800 分不是夢。</p>
+      <button class="btn" id="reset" style="margin-top:14px">⟲ 重設所有進度</button>
+    </div>
+  </div>
+
+  <footer>每日一點 · 積少成多 · GOOD LUCK 🍀</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- MINI GRAMMAR QUIZ MODAL -->
+<div class="modal-bg" id="mini-bg">
+  <div class="modal" id="mini-modal">
+    <div id="mini-quiz-view">
+      <div class="mhead">
+        <div class="mkicker">階段小測驗 · 文法運用</div>
+        <div class="mtitle" id="mini-title">用剛背的字練語感</div>
+      </div>
+      <div class="mprog" id="mini-prog">第 1 / 5 題</div>
+      <div id="mini-body"></div>
+    </div>
+    <div id="mini-result-view" style="display:none">
+      <div class="mhead"><div class="mkicker">小測驗完成</div></div>
+      <div class="mresult">
+        <div class="rscore" id="mini-score">0/0</div>
+        <div class="rmsg" id="mini-rmsg"></div>
+        <button class="btn pri" id="mini-close" style="padding:12px 30px">繼續背單字 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== 內建多益核心單字 (600→800 分常見字) =====
+const BUILTIN = [
+  {w:"acquire",p:"v.",ph:"/əˈkwaɪər/",m:"取得；收購",ex:"The company plans to <b>acquire</b> a smaller firm."},
+  {w:"allocate",p:"v.",ph:"/ˈæləkeɪt/",m:"分配；撥出",ex:"We need to <b>allocate</b> more budget to marketing."},
+  {w:"anticipate",p:"v.",ph:"/ænˈtɪsɪpeɪt/",m:"預期；預料",ex:"We <b>anticipate</b> strong sales this quarter."},
+  {w:"appoint",p:"v.",ph:"/əˈpɔɪnt/",m:"任命；指派",ex:"She was <b>appointed</b> as the new director."},
+  {w:"assess",p:"v.",ph:"/əˈses/",m:"評估；估價",ex:"Please <b>assess</b> the risks before investing."},
+  {w:"assign",p:"v.",ph:"/əˈsaɪn/",m:"分派；指定",ex:"The manager <b>assigned</b> the task to me."},
+  {w:"attain",p:"v.",ph:"/əˈteɪn/",m:"達到；獲得",ex:"He worked hard to <b>attain</b> his goals."},
+  {w:"authorize",p:"v.",ph:"/ˈɔːθəraɪz/",m:"授權；批准",ex:"Only managers can <b>authorize</b> refunds."},
+  {w:"comply",p:"v.",ph:"/kəmˈplaɪ/",m:"遵守；服從",ex:"All staff must <b>comply</b> with the rules."},
+  {w:"compensate",p:"v.",ph:"/ˈkɒmpenseɪt/",m:"補償；賠償",ex:"We will <b>compensate</b> you for the delay."},
+  {w:"consolidate",p:"v.",ph:"/kənˈsɒlɪdeɪt/",m:"鞏固；合併",ex:"They decided to <b>consolidate</b> two departments."},
+  {w:"coordinate",p:"v.",ph:"/kəʊˈɔːdɪneɪt/",m:"協調；整合",ex:"She will <b>coordinate</b> the event logistics."},
+  {w:"delegate",p:"v.",ph:"/ˈdelɪɡeɪt/",m:"委派；授權",ex:"A good leader knows how to <b>delegate</b>."},
+  {w:"distribute",p:"v.",ph:"/dɪˈstrɪbjuːt/",m:"分發；分銷",ex:"They <b>distribute</b> products across Asia."},
+  {w:"endorse",p:"v.",ph:"/ɪnˈdɔːs/",m:"背書；支持",ex:"The board <b>endorsed</b> the new policy."},
+  {w:"enhance",p:"v.",ph:"/ɪnˈhɑːns/",m:"提升；增強",ex:"This feature will <b>enhance</b> the user experience."},
+  {w:"evaluate",p:"v.",ph:"/ɪˈvæljueɪt/",m:"評價；評估",ex:"We <b>evaluate</b> employees twice a year."},
+  {w:"exceed",p:"v.",ph:"/ɪkˈsiːd/",m:"超過；超越",ex:"Sales <b>exceeded</b> our expectations."},
+  {w:"facilitate",p:"v.",ph:"/fəˈsɪlɪteɪt/",m:"促進；使便利",ex:"The app <b>facilitates</b> communication."},
+  {w:"implement",p:"v.",ph:"/ˈɪmplɪment/",m:"實施；執行",ex:"We will <b>implement</b> the plan next month."},
+  {w:"incorporate",p:"v.",ph:"/ɪnˈkɔːpəreɪt/",m:"納入；合併",ex:"Please <b>incorporate</b> the feedback."},
+  {w:"initiate",p:"v.",ph:"/ɪˈnɪʃieɪt/",m:"發起；開始",ex:"They <b>initiated</b> a new project."},
+  {w:"negotiate",p:"v.",ph:"/nɪˈɡəʊʃieɪt/",m:"談判；協商",ex:"We need to <b>negotiate</b> the contract terms."},
+  {w:"obtain",p:"v.",ph:"/əbˈteɪn/",m:"獲得；取得",ex:"You must <b>obtain</b> permission first."},
+  {w:"oversee",p:"v.",ph:"/ˌəʊvəˈsiː/",m:"監督；管理",ex:"She <b>oversees</b> daily operations."},
+  {w:"postpone",p:"v.",ph:"/pəˈspəʊn/",m:"延期；推遲",ex:"The meeting was <b>postponed</b> to Friday."},
+  {w:"prioritize",p:"v.",ph:"/praɪˈɒrɪtaɪz/",m:"優先處理",ex:"You should <b>prioritize</b> urgent tasks."},
+  {w:"reimburse",p:"v.",ph:"/ˌriːɪmˈbɜːs/",m:"償還；報銷",ex:"The company will <b>reimburse</b> travel costs."},
+  {w:"renovate",p:"v.",ph:"/ˈrenəveɪt/",m:"翻新；整修",ex:"They plan to <b>renovate</b> the office."},
+  {w:"streamline",p:"v.",ph:"/ˈstriːmlaɪn/",m:"使簡化；使有效率",ex:"We aim to <b>streamline</b> the process."},
+  {w:"abundant",p:"adj.",ph:"/əˈbʌndənt/",m:"豐富的；充足的",ex:"The region has <b>abundant</b> resources."},
+  {w:"adequate",p:"adj.",ph:"/ˈædɪkwət/",m:"足夠的；適當的",ex:"Make sure you have <b>adequate</b> supplies."},
+  {w:"comprehensive",p:"adj.",ph:"/ˌkɒmprɪˈhensɪv/",m:"全面的；綜合的",ex:"We offer <b>comprehensive</b> training."},
+  {w:"consecutive",p:"adj.",ph:"/kənˈsekjʊtɪv/",m:"連續的",ex:"Sales rose for three <b>consecutive</b> months."},
+  {w:"crucial",p:"adj.",ph:"/ˈkruːʃəl/",m:"關鍵的；至關重要的",ex:"Timing is <b>crucial</b> in this deal."},
+  {w:"diverse",p:"adj.",ph:"/daɪˈvɜːs/",m:"多樣的；不同的",ex:"We have a <b>diverse</b> workforce."},
+  {w:"efficient",p:"adj.",ph:"/ɪˈfɪʃənt/",m:"有效率的",ex:"The new system is more <b>efficient</b>."},
+  {w:"eligible",p:"adj.",ph:"/ˈelɪdʒəbl/",m:"有資格的",ex:"You are <b>eligible</b> for the discount."},
+  {w:"essential",p:"adj.",ph:"/ɪˈsenʃəl/",m:"必要的；基本的",ex:"Teamwork is <b>essential</b> to success."},
+  {w:"feasible",p:"adj.",ph:"/ˈfiːzəbl/",m:"可行的",ex:"The plan seems <b>feasible</b>."},
+  {w:"mandatory",p:"adj.",ph:"/ˈmændətɔːri/",m:"強制的；義務的",ex:"Attendance is <b>mandatory</b>."},
+  {w:"preliminary",p:"adj.",ph:"/prɪˈlɪmɪnəri/",m:"初步的；預備的",ex:"These are <b>preliminary</b> results."},
+  {w:"prominent",p:"adj.",ph:"/ˈprɒmɪnənt/",m:"傑出的；顯著的",ex:"She is a <b>prominent</b> figure in finance."},
+  {w:"reluctant",p:"adj.",ph:"/rɪˈlʌktənt/",m:"不情願的",ex:"He was <b>reluctant</b> to agree."},
+  {w:"substantial",p:"adj.",ph:"/səbˈstænʃəl/",m:"大量的；可觀的",ex:"They made a <b>substantial</b> profit."},
+  {w:"sufficient",p:"adj.",ph:"/səˈfɪʃənt/",m:"足夠的",ex:"We have <b>sufficient</b> funds."},
+  {w:"tentative",p:"adj.",ph:"/ˈtentətɪv/",m:"暫定的；試探性的",ex:"We have a <b>tentative</b> agreement."},
+  {w:"versatile",p:"adj.",ph:"/ˈvɜːsətaɪl/",m:"多功能的；多才多藝的",ex:"This tool is very <b>versatile</b>."},
+  {w:"vital",p:"adj.",ph:"/ˈvaɪtəl/",m:"至關重要的",ex:"Cash flow is <b>vital</b> for any business."},
+  {w:"feasibility",p:"n.",ph:"/ˌfiːzəˈbɪləti/",m:"可行性",ex:"They studied the <b>feasibility</b> of the project."},
+  {w:"agenda",p:"n.",ph:"/əˈdʒendə/",m:"議程",ex:"The <b>agenda</b> has five items."},
+  {w:"asset",p:"n.",ph:"/ˈæset/",m:"資產；有用的人事物",ex:"Experience is a valuable <b>asset</b>."},
+  {w:"benchmark",p:"n.",ph:"/ˈbentʃmɑːk/",m:"基準；標竿",ex:"This sets the <b>benchmark</b> for quality."},
+  {w:"compliance",p:"n.",ph:"/kəmˈplaɪəns/",m:"遵守；服從",ex:"We ensure <b>compliance</b> with regulations."},
+  {w:"deficit",p:"n.",ph:"/ˈdefɪsɪt/",m:"赤字；不足額",ex:"The budget <b>deficit</b> grew last year."},
+  {w:"discrepancy",p:"n.",ph:"/dɪsˈkrepənsi/",m:"差異；不一致",ex:"There is a <b>discrepancy</b> in the figures."},
+  {w:"endeavor",p:"n.",ph:"/ɪnˈdevər/",m:"努力；嘗試",ex:"Thank you for your <b>endeavor</b>."},
+  {w:"estimate",p:"n.",ph:"/ˈestɪmət/",m:"估計；報價",ex:"Can you give me a rough <b>estimate</b>?"},
+  {w:"incentive",p:"n.",ph:"/ɪnˈsentɪv/",m:"激勵；誘因",ex:"Bonuses are a great <b>incentive</b>."},
+  {w:"initiative",p:"n.",ph:"/ɪˈnɪʃətɪv/",m:"主動性；新措施",ex:"He showed great <b>initiative</b>."},
+  {w:"inventory",p:"n.",ph:"/ˈɪnvəntri/",m:"存貨；庫存",ex:"We need to check the <b>inventory</b>."},
+  {w:"liability",p:"n.",ph:"/ˌlaɪəˈbɪləti/",m:"責任；負債",ex:"The firm has heavy <b>liabilities</b>."},
+  {w:"merchandise",p:"n.",ph:"/ˈmɜːtʃəndaɪz/",m:"商品；貨物",ex:"The store has new <b>merchandise</b>."},
+  {w:"obligation",p:"n.",ph:"/ˌɒblɪˈɡeɪʃən/",m:"義務；責任",ex:"We have a legal <b>obligation</b>."},
+  {w:"overhead",p:"n.",ph:"/ˈəʊvəhed/",m:"經常性開支；管銷費用",ex:"We cut <b>overhead</b> costs."},
+  {w:"premise",p:"n.",ph:"/ˈpremɪs/",m:"前提；房屋場所",ex:"Smoking is banned on the <b>premises</b>."},
+  {w:"prospect",p:"n.",ph:"/ˈprɒspekt/",m:"前景；潛在客戶",ex:"There are good <b>prospects</b> for growth."},
+  {w:"quota",p:"n.",ph:"/ˈkwəʊtə/",m:"配額；定額",ex:"She met her sales <b>quota</b>."},
+  {w:"reimbursement",p:"n.",ph:"/ˌriːɪmˈbɜːsmənt/",m:"報銷；償還",ex:"Submit receipts for <b>reimbursement</b>."},
+  {w:"revenue",p:"n.",ph:"/ˈrevənjuː/",m:"收入；營收",ex:"Annual <b>revenue</b> reached a record high."},
+  {w:"subsidiary",p:"n.",ph:"/səbˈsɪdiəri/",m:"子公司",ex:"It is a <b>subsidiary</b> of a larger group."},
+  {w:"surplus",p:"n.",ph:"/ˈsɜːpləs/",m:"剩餘；盈餘",ex:"We have a <b>surplus</b> of stock."},
+  {w:"venture",p:"n.",ph:"/ˈventʃər/",m:"企業；冒險事業",ex:"They launched a new business <b>venture</b>."},
+  {w:"warranty",p:"n.",ph:"/ˈwɒrənti/",m:"保固；保證書",ex:"The product comes with a one-year <b>warranty</b>."},
+  {w:"alternative",p:"n.",ph:"/ɔːlˈtɜːnətɪv/",m:"替代方案",ex:"Is there an <b>alternative</b> to this plan?"},
+  {w:"appliance",p:"n.",ph:"/əˈplaɪəns/",m:"家電；器具",ex:"They sell kitchen <b>appliances</b>."},
+  {w:"candidate",p:"n.",ph:"/ˈkændɪdət/",m:"候選人；應徵者",ex:"We interviewed five <b>candidates</b>."},
+  {w:"colleague",p:"n.",ph:"/ˈkɒliːɡ/",m:"同事",ex:"My <b>colleagues</b> are very helpful."},
+  {w:"itinerary",p:"n.",ph:"/aɪˈtɪnərəri/",m:"行程；旅程表",ex:"Here is your travel <b>itinerary</b>."},
+  {w:"refund",p:"n.",ph:"/ˈriːfʌnd/",m:"退款",ex:"You can request a full <b>refund</b>."},
+  {w:"receipt",p:"n.",ph:"/rɪˈsiːt/",m:"收據；收到",ex:"Keep your <b>receipt</b> for returns."},
+  {w:"shipment",p:"n.",ph:"/ˈʃɪpmənt/",m:"裝運；運送的貨物",ex:"The <b>shipment</b> arrives tomorrow."},
+  {w:"vendor",p:"n.",ph:"/ˈvendər/",m:"供應商；攤販",ex:"We changed our main <b>vendor</b>."},
+  {w:"deadline",p:"n.",ph:"/ˈdedlaɪn/",m:"截止期限",ex:"The <b>deadline</b> is next Monday."},
+  {w:"feedback",p:"n.",ph:"/ˈfiːdbæk/",m:"回饋；意見",ex:"Thank you for your <b>feedback</b>."},
+  {w:"deduct",p:"v.",ph:"/dɪˈdʌkt/",m:"扣除；減去",ex:"Taxes are <b>deducted</b> from your salary."},
+  {w:"diminish",p:"v.",ph:"/dɪˈmɪnɪʃ/",m:"減少；削弱",ex:"Demand began to <b>diminish</b>."},
+  {w:"emphasize",p:"v.",ph:"/ˈemfəsaɪz/",m:"強調",ex:"He <b>emphasized</b> the importance of safety."},
+  {w:"forecast",p:"v.",ph:"/ˈfɔːkɑːst/",m:"預測",ex:"Analysts <b>forecast</b> slower growth."},
+  {w:"generate",p:"v.",ph:"/ˈdʒenəreɪt/",m:"產生；生成",ex:"The campaign <b>generated</b> a lot of interest."},
+  {w:"modify",p:"v.",ph:"/ˈmɒdɪfaɪ/",m:"修改；調整",ex:"We may <b>modify</b> the design."},
+  {w:"notify",p:"v.",ph:"/ˈnəʊtɪfaɪ/",m:"通知",ex:"Please <b>notify</b> us of any changes."},
+  {w:"pursue",p:"v.",ph:"/pəˈsjuː/",m:"追求；從事",ex:"She decided to <b>pursue</b> a career in law."},
+  {w:"resume",p:"v.",ph:"/rɪˈzjuːm/",m:"恢復；重新開始",ex:"Work will <b>resume</b> after lunch."},
+  {w:"retain",p:"v.",ph:"/rɪˈteɪn/",m:"保留；保持",ex:"The company struggles to <b>retain</b> staff."},
+  {w:"verify",p:"v.",ph:"/ˈverɪfaɪ/",m:"核實；證實",ex:"Please <b>verify</b> your email address."},
+  {w:"withdraw",p:"v.",ph:"/wɪðˈdrɔː/",m:"撤回；提款",ex:"He <b>withdrew</b> his application."},
+  {w:"accommodate",p:"v.",ph:"/əˈkɒmədeɪt/",m:"容納；顧及",ex:"The hall can <b>accommodate</b> 500 people."},
+  {w:"alleviate",p:"v.",ph:"/əˈliːvieɪt/",m:"減輕；緩解",ex:"The plan aims to <b>alleviate</b> traffic."},
+  {w:"compile",p:"v.",ph:"/kəmˈpaɪl/",m:"彙編；編纂",ex:"She <b>compiled</b> the annual report."},
+  {w:"designate",p:"v.",ph:"/ˈdezɪɡneɪt/",m:"指定；標明",ex:"This area is <b>designated</b> for parking."},
+  {w:"accomplish",p:"v.",ph:"/əˈkʌmplɪʃ/",m:"完成；達成",ex:"We <b>accomplished</b> our quarterly target."},
+  {w:"acknowledge",p:"v.",ph:"/əkˈnɒlɪdʒ/",m:"承認；確認收到",ex:"Please <b>acknowledge</b> receipt of this email."},
+  {w:"adjourn",p:"v.",ph:"/əˈdʒɜːn/",m:"休會；延期",ex:"The meeting was <b>adjourned</b> until next week."},
+  {w:"affiliate",p:"n.",ph:"/əˈfɪliət/",m:"分支機構；聯盟成員",ex:"The hotel is an <b>affiliate</b> of a global chain."},
+  {w:"agreement",p:"n.",ph:"/əˈɡriːmənt/",m:"協議；同意",ex:"Both sides reached an <b>agreement</b>."},
+  {w:"approve",p:"v.",ph:"/əˈpruːv/",m:"批准；同意",ex:"The budget was <b>approved</b> by the board."},
+  {w:"attendee",p:"n.",ph:"/əˌtenˈdiː/",m:"出席者",ex:"Each <b>attendee</b> received a name badge."},
+  {w:"ballot",p:"n.",ph:"/ˈbælət/",m:"選票；投票",ex:"Members voted by secret <b>ballot</b>."},
+  {w:"brief",p:"v.",ph:"/briːf/",m:"簡報；告知要點",ex:"She <b>briefed</b> the team before the launch."},
+  {w:"clarify",p:"v.",ph:"/ˈklærɪfaɪ/",m:"澄清；闡明",ex:"Could you <b>clarify</b> the last point?"},
+  {w:"collaborate",p:"v.",ph:"/kəˈlæbəreɪt/",m:"合作",ex:"The two teams <b>collaborated</b> on the design."},
+  {w:"commence",p:"v.",ph:"/kəˈmens/",m:"開始",ex:"The session will <b>commence</b> at 9 a.m."},
+  {w:"confidential",p:"adj.",ph:"/ˌkɒnfɪˈdenʃəl/",m:"機密的",ex:"This report is strictly <b>confidential</b>."},
+  {w:"convene",p:"v.",ph:"/kənˈviːn/",m:"召集；集會",ex:"The committee will <b>convene</b> on Monday."},
+  {w:"correspondence",p:"n.",ph:"/ˌkɒrɪˈspɒndəns/",m:"通信；信件往來",ex:"Keep a record of all <b>correspondence</b>."},
+  {w:"deliberate",p:"v.",ph:"/dɪˈlɪbəreɪt/",m:"審議；仔細考慮",ex:"The jury <b>deliberated</b> for hours."},
+  {w:"draft",p:"n.",ph:"/drɑːft/",m:"草稿",ex:"Send me the first <b>draft</b> by Friday."},
+  {w:"forum",p:"n.",ph:"/ˈfɔːrəm/",m:"論壇；討論會",ex:"The <b>forum</b> attracted industry leaders."},
+  {w:"memorandum",p:"n.",ph:"/ˌmeməˈrændəm/",m:"備忘錄",ex:"A <b>memorandum</b> was sent to all staff."},
+  {w:"minutes",p:"n.",ph:"/ˈmɪnɪts/",m:"會議記錄",ex:"Who is taking the <b>minutes</b> today?"},
+  {w:"objective",p:"n.",ph:"/əbˈdʒektɪv/",m:"目標",ex:"Our main <b>objective</b> is customer satisfaction."},
+  {w:"outline",p:"v.",ph:"/ˈaʊtlaɪn/",m:"概述",ex:"He <b>outlined</b> the plan in three points."},
+  {w:"participant",p:"n.",ph:"/pɑːˈtɪsɪpənt/",m:"參與者",ex:"Each <b>participant</b> shared an idea."},
+  {w:"preside",p:"v.",ph:"/prɪˈzaɪd/",m:"主持",ex:"The chairman will <b>preside</b> over the meeting."},
+  {w:"proposal",p:"n.",ph:"/prəˈpəʊzəl/",m:"提案",ex:"We submitted a detailed <b>proposal</b>."},
+  {w:"recap",p:"v.",ph:"/ˈriːkæp/",m:"扼要重述",ex:"Let me <b>recap</b> the key points."},
+  {w:"resolution",p:"n.",ph:"/ˌrezəˈluːʃən/",m:"決議；解決",ex:"The board passed a <b>resolution</b>."},
+  {w:"summarize",p:"v.",ph:"/ˈsʌməraɪz/",m:"總結",ex:"Please <b>summarize</b> the findings."},
+  {w:"unanimous",p:"adj.",ph:"/juːˈnænɪməs/",m:"一致同意的",ex:"The decision was <b>unanimous</b>."},
+  {w:"administrative",p:"adj.",ph:"/ədˈmɪnɪstrətɪv/",m:"行政的",ex:"She handles <b>administrative</b> duties."},
+  {w:"appointment",p:"n.",ph:"/əˈpɔɪntmənt/",m:"約會；任命",ex:"I have an <b>appointment</b> at three."},
+  {w:"archive",p:"v.",ph:"/ˈɑːkaɪv/",m:"存檔",ex:"Old files are <b>archived</b> monthly."},
+  {w:"attachment",p:"n.",ph:"/əˈtætʃmənt/",m:"附件",ex:"Please see the <b>attachment</b>."},
+  {w:"automate",p:"v.",ph:"/ˈɔːtəmeɪt/",m:"使自動化",ex:"We <b>automated</b> the billing process."},
+  {w:"clerical",p:"adj.",ph:"/ˈklerɪkəl/",m:"文書的；辦事員的",ex:"The job involves <b>clerical</b> work."},
+  {w:"courier",p:"n.",ph:"/ˈkʊriər/",m:"快遞",ex:"The documents were sent by <b>courier</b>."},
+  {w:"duplicate",p:"v.",ph:"/ˈdjuːplɪkeɪt/",m:"複製",ex:"Please <b>duplicate</b> this form."},
+  {w:"efficiency",p:"n.",ph:"/ɪˈfɪʃənsi/",m:"效率",ex:"The upgrade improved <b>efficiency</b>."},
+  {w:"equipment",p:"n.",ph:"/ɪˈkwɪpmənt/",m:"設備",ex:"The office <b>equipment</b> needs servicing."},
+  {w:"file",p:"v.",ph:"/faɪl/",m:"歸檔；提出",ex:"Please <b>file</b> these documents."},
+  {w:"maintenance",p:"n.",ph:"/ˈmeɪntənəns/",m:"維護",ex:"Regular <b>maintenance</b> prevents breakdowns."},
+  {w:"photocopy",p:"v.",ph:"/ˈfəʊtəʊkɒpi/",m:"影印",ex:"Could you <b>photocopy</b> this page?"},
+  {w:"procedure",p:"n.",ph:"/prəˈsiːdʒər/",m:"程序",ex:"Follow the standard <b>procedure</b>."},
+  {w:"schedule",p:"v.",ph:"/ˈʃedjuːl/",m:"安排",ex:"The call is <b>scheduled</b> for noon."},
+  {w:"stationery",p:"n.",ph:"/ˈsteɪʃənəri/",m:"文具",ex:"We ran out of office <b>stationery</b>."},
+  {w:"supervise",p:"v.",ph:"/ˈsuːpəvaɪz/",m:"監督",ex:"She <b>supervises</b> ten employees."},
+  {w:"workload",p:"n.",ph:"/ˈwɜːkləʊd/",m:"工作量",ex:"His <b>workload</b> has increased."},
+  {w:"applicant",p:"n.",ph:"/ˈæplɪkənt/",m:"申請人",ex:"We interviewed several <b>applicants</b>."},
+  {w:"benefit",p:"n.",ph:"/ˈbenɪfɪt/",m:"福利",ex:"The job offers good <b>benefits</b>."},
+  {w:"compensation",p:"n.",ph:"/ˌkɒmpenˈseɪʃən/",m:"薪酬",ex:"The <b>compensation</b> package is attractive."},
+  {w:"credential",p:"n.",ph:"/krəˈdenʃəl/",m:"資歷；證書",ex:"Check the candidate's <b>credentials</b>."},
+  {w:"dismiss",p:"v.",ph:"/dɪsˈmɪs/",m:"解僱",ex:"He was <b>dismissed</b> for misconduct."},
+  {w:"expertise",p:"n.",ph:"/ˌekspɜːˈtiːz/",m:"專業知識",ex:"She has <b>expertise</b> in marketing."},
+  {w:"hire",p:"v.",ph:"/ˈhaɪər/",m:"僱用",ex:"We plan to <b>hire</b> five staff."},
+  {w:"internship",p:"n.",ph:"/ˈɪntɜːnʃɪp/",m:"實習",ex:"She completed a summer <b>internship</b>."},
+  {w:"layoff",p:"n.",ph:"/ˈleɪɒf/",m:"裁員",ex:"The factory announced <b>layoffs</b>."},
+  {w:"morale",p:"n.",ph:"/məˈrɑːl/",m:"士氣",ex:"Team <b>morale</b> is high."},
+  {w:"payroll",p:"n.",ph:"/ˈpeɪrəʊl/",m:"薪資名冊",ex:"She manages the company <b>payroll</b>."},
+  {w:"personnel",p:"n.",ph:"/ˌpɜːsəˈnel/",m:"人員；人事",ex:"All <b>personnel</b> must wear badges."},
+  {w:"promotion",p:"n.",ph:"/prəˈməʊʃən/",m:"升遷；促銷",ex:"She earned a <b>promotion</b>."},
+  {w:"recruit",p:"v.",ph:"/rɪˈkruːt/",m:"招募",ex:"We need to <b>recruit</b> engineers."},
+  {w:"resign",p:"v.",ph:"/rɪˈzaɪn/",m:"辭職",ex:"He decided to <b>resign</b>."},
+  {w:"supervisor",p:"n.",ph:"/ˈsuːpəvaɪzər/",m:"主管",ex:"Report to your <b>supervisor</b>."},
+  {w:"turnover",p:"n.",ph:"/ˈtɜːnəʊvər/",m:"人員流動率；營業額",ex:"Staff <b>turnover</b> is low."},
+  {w:"vacancy",p:"n.",ph:"/ˈveɪkənsi/",m:"空缺",ex:"There is a <b>vacancy</b> in sales."},
+  {w:"wage",p:"n.",ph:"/weɪdʒ/",m:"工資",ex:"The minimum <b>wage</b> rose this year."},
+  {w:"workforce",p:"n.",ph:"/ˈwɜːkfɔːs/",m:"勞動力",ex:"The <b>workforce</b> is highly skilled."},
+  {w:"qualification",p:"n.",ph:"/ˌkwɒlɪfɪˈkeɪʃən/",m:"資格",ex:"List your <b>qualifications</b>."},
+  {w:"severance",p:"n.",ph:"/ˈsevərəns/",m:"遣散費",ex:"He received a <b>severance</b> package."},
+  {w:"audit",p:"n.",ph:"/ˈɔːdɪt/",m:"審計",ex:"The annual <b>audit</b> is due."},
+  {w:"balance",p:"n.",ph:"/ˈbæləns/",m:"餘額；平衡",ex:"Check your account <b>balance</b>."},
+  {w:"bankruptcy",p:"n.",ph:"/ˈbæŋkrəptsi/",m:"破產",ex:"The firm filed for <b>bankruptcy</b>."},
+  {w:"budget",p:"n.",ph:"/ˈbʌdʒɪt/",m:"預算",ex:"We exceeded the <b>budget</b>."},
+  {w:"capital",p:"n.",ph:"/ˈkæpɪtəl/",m:"資本",ex:"They raised <b>capital</b> for expansion."},
+  {w:"commission",p:"n.",ph:"/kəˈmɪʃən/",m:"佣金",ex:"Sales staff earn a <b>commission</b>."},
+  {w:"currency",p:"n.",ph:"/ˈkʌrənsi/",m:"貨幣",ex:"The <b>currency</b> rate fluctuates."},
+  {w:"dividend",p:"n.",ph:"/ˈdɪvɪdend/",m:"股利",ex:"Shareholders received a <b>dividend</b>."},
+  {w:"expenditure",p:"n.",ph:"/ɪkˈspendɪtʃər/",m:"支出",ex:"Cut unnecessary <b>expenditure</b>."},
+  {w:"expense",p:"n.",ph:"/ɪkˈspens/",m:"費用",ex:"Travel <b>expenses</b> are reimbursed."},
+  {w:"fee",p:"n.",ph:"/fiː/",m:"費用",ex:"There is a service <b>fee</b>."},
+  {w:"fiscal",p:"adj.",ph:"/ˈfɪskəl/",m:"財政的",ex:"The <b>fiscal</b> year ends in March."},
+  {w:"installment",p:"n.",ph:"/ɪnˈstɔːlmənt/",m:"分期付款",ex:"Pay in monthly <b>installments</b>."},
+  {w:"invoice",p:"n.",ph:"/ˈɪnvɔɪs/",m:"發票",ex:"Send the <b>invoice</b> to accounting."},
+  {w:"ledger",p:"n.",ph:"/ˈledʒər/",m:"帳簿",ex:"Record it in the <b>ledger</b>."},
+  {w:"mortgage",p:"n.",ph:"/ˈmɔːɡɪdʒ/",m:"抵押貸款",ex:"They took out a <b>mortgage</b>."},
+  {w:"profit",p:"n.",ph:"/ˈprɒfɪt/",m:"利潤",ex:"The company made a <b>profit</b>."},
+  {w:"statement",p:"n.",ph:"/ˈsteɪtmənt/",m:"報表；聲明",ex:"Review your bank <b>statement</b>."},
+  {w:"transaction",p:"n.",ph:"/trænˈzækʃən/",m:"交易",ex:"Each <b>transaction</b> is logged."},
+  {w:"wholesale",p:"adj.",ph:"/ˈhəʊlseɪl/",m:"批發的",ex:"They sell at <b>wholesale</b> prices."},
+  {w:"appraisal",p:"n.",ph:"/əˈpreɪzəl/",m:"評估；估價",ex:"A property <b>appraisal</b> is required."},
+  {w:"remittance",p:"n.",ph:"/rɪˈmɪtəns/",m:"匯款",ex:"Please confirm the <b>remittance</b>."},
+  {w:"advertise",p:"v.",ph:"/ˈædvətaɪz/",m:"廣告",ex:"They <b>advertise</b> on social media."},
+  {w:"brand",p:"n.",ph:"/brænd/",m:"品牌",ex:"It is a well-known <b>brand</b>."},
+  {w:"campaign",p:"n.",ph:"/kæmˈpeɪn/",m:"活動",ex:"The ad <b>campaign</b> was a success."},
+  {w:"clientele",p:"n.",ph:"/ˌkliːənˈtel/",m:"客戶群",ex:"The shop has a loyal <b>clientele</b>."},
+  {w:"consumer",p:"n.",ph:"/kənˈsjuːmər/",m:"消費者",ex:"Know your <b>consumers</b>."},
+  {w:"demand",p:"n.",ph:"/dɪˈmɑːnd/",m:"需求",ex:"There is high <b>demand</b> for the product."},
+  {w:"discount",p:"n.",ph:"/ˈdɪskaʊnt/",m:"折扣",ex:"Members get a <b>discount</b>."},
+  {w:"endorsement",p:"n.",ph:"/ɪnˈdɔːsmənt/",m:"代言；背書",ex:"A celebrity <b>endorsement</b> boosts sales."},
+  {w:"launch",p:"v.",ph:"/lɔːntʃ/",m:"推出",ex:"They will <b>launch</b> the product soon."},
+  {w:"loyalty",p:"n.",ph:"/ˈlɔɪəlti/",m:"忠誠",ex:"We reward customer <b>loyalty</b>."},
+  {w:"outlet",p:"n.",ph:"/ˈaʊtlet/",m:"門市；經銷點",ex:"Visit our retail <b>outlet</b>."},
+  {w:"promote",p:"v.",ph:"/prəˈməʊt/",m:"促銷；推廣",ex:"They <b>promote</b> the brand heavily."},
+  {w:"retail",p:"n.",ph:"/ˈriːteɪl/",m:"零售",ex:"She works in <b>retail</b>."},
+  {w:"strategy",p:"n.",ph:"/ˈstrætədʒi/",m:"策略",ex:"We need a new marketing <b>strategy</b>."},
+  {w:"survey",p:"n.",ph:"/ˈsɜːveɪ/",m:"調查",ex:"We conducted a customer <b>survey</b>."},
+  {w:"target",p:"v.",ph:"/ˈtɑːɡɪt/",m:"以…為目標",ex:"We <b>target</b> young professionals."},
+  {w:"trend",p:"n.",ph:"/trend/",m:"趨勢",ex:"Follow the latest <b>trends</b>."},
+  {w:"wholesaler",p:"n.",ph:"/ˈhəʊlseɪlər/",m:"批發商",ex:"We buy from a <b>wholesaler</b>."},
+  {w:"subscription",p:"n.",ph:"/səbˈskrɪpʃən/",m:"訂閱",ex:"Renew your <b>subscription</b>."},
+  {w:"testimonial",p:"n.",ph:"/ˌtestɪˈməʊniəl/",m:"推薦；見證",ex:"Customer <b>testimonials</b> build trust."},
+  {w:"aboard",p:"adv.",ph:"/əˈbɔːd/",m:"在(船/車/飛機)上",ex:"Welcome <b>aboard</b> the flight."},
+  {w:"accommodation",p:"n.",ph:"/əˌkɒməˈdeɪʃən/",m:"住宿",ex:"The <b>accommodation</b> is comfortable."},
+  {w:"baggage",p:"n.",ph:"/ˈbæɡɪdʒ/",m:"行李",ex:"Collect your <b>baggage</b> at carousel 3."},
+  {w:"boarding",p:"n.",ph:"/ˈbɔːdɪŋ/",m:"登機",ex:"<b>Boarding</b> begins in ten minutes."},
+  {w:"booking",p:"n.",ph:"/ˈbʊkɪŋ/",m:"預訂",ex:"Confirm your <b>booking</b> online."},
+  {w:"commute",p:"v.",ph:"/kəˈmjuːt/",m:"通勤",ex:"I <b>commute</b> by train."},
+  {w:"departure",p:"n.",ph:"/dɪˈpɑːtʃər/",m:"出發",ex:"Check the <b>departure</b> time."},
+  {w:"destination",p:"n.",ph:"/ˌdestɪˈneɪʃən/",m:"目的地",ex:"Paris is a popular <b>destination</b>."},
+  {w:"detour",p:"n.",ph:"/ˈdiːtʊər/",m:"繞道",ex:"Take a <b>detour</b> due to roadwork."},
+  {w:"fare",p:"n.",ph:"/feər/",m:"票價",ex:"The bus <b>fare</b> went up."},
+  {w:"layover",p:"n.",ph:"/ˈleɪəʊvər/",m:"中途停留",ex:"We have a two-hour <b>layover</b>."},
+  {w:"luggage",p:"n.",ph:"/ˈlʌɡɪdʒ/",m:"行李",ex:"Pack your <b>luggage</b> lightly."},
+  {w:"passenger",p:"n.",ph:"/ˈpæsɪndʒər/",m:"乘客",ex:"Every <b>passenger</b> needs a ticket."},
+  {w:"reservation",p:"n.",ph:"/ˌrezəˈveɪʃən/",m:"預訂",ex:"I made a <b>reservation</b> for two."},
+  {w:"round-trip",p:"adj.",ph:"/ˌraʊnd ˈtrɪp/",m:"來回的",ex:"Book a <b>round-trip</b> ticket."},
+  {w:"shuttle",p:"n.",ph:"/ˈʃʌtl/",m:"接駁車",ex:"Take the airport <b>shuttle</b>."},
+  {w:"terminal",p:"n.",ph:"/ˈtɜːmɪnəl/",m:"航廈",ex:"Go to <b>terminal</b> two."},
+  {w:"transit",p:"n.",ph:"/ˈtrænzɪt/",m:"運輸；中轉",ex:"Goods in <b>transit</b> are insured."},
+  {w:"voyage",p:"n.",ph:"/ˈvɔɪɪdʒ/",m:"航行",ex:"They set off on a long <b>voyage</b>."},
+  {w:"excursion",p:"n.",ph:"/ɪkˈskɜːʃən/",m:"短程旅行",ex:"A day <b>excursion</b> is included."},
+  {w:"lodging",p:"n.",ph:"/ˈlɒdʒɪŋ/",m:"住宿",ex:"Meals and <b>lodging</b> are provided."},
+  {w:"assemble",p:"v.",ph:"/əˈsembl/",m:"組裝",ex:"Workers <b>assemble</b> the parts."},
+  {w:"capacity",p:"n.",ph:"/kəˈpæsəti/",m:"產能；容量",ex:"The plant runs at full <b>capacity</b>."},
+  {w:"component",p:"n.",ph:"/kəmˈpəʊnənt/",m:"零件",ex:"Each <b>component</b> is tested."},
+  {w:"defective",p:"adj.",ph:"/dɪˈfektɪv/",m:"有缺陷的",ex:"Return any <b>defective</b> items."},
+  {w:"dispatch",p:"v.",ph:"/dɪsˈpætʃ/",m:"派遣；發送",ex:"We <b>dispatch</b> orders daily."},
+  {w:"durable",p:"adj.",ph:"/ˈdjʊərəbl/",m:"耐用的",ex:"The material is very <b>durable</b>."},
+  {w:"facility",p:"n.",ph:"/fəˈsɪləti/",m:"設施；廠房",ex:"A new <b>facility</b> opened."},
+  {w:"freight",p:"n.",ph:"/freɪt/",m:"貨運",ex:"<b>Freight</b> charges apply."},
+  {w:"inspect",p:"v.",ph:"/ɪnˈspekt/",m:"檢查",ex:"Inspectors <b>inspect</b> the goods."},
+  {w:"logistics",p:"n.",ph:"/ləˈdʒɪstɪks/",m:"物流",ex:"Our <b>logistics</b> team is efficient."},
+  {w:"manufacture",p:"v.",ph:"/ˌmænjuˈfæktʃər/",m:"製造",ex:"They <b>manufacture</b> car parts."},
+  {w:"output",p:"n.",ph:"/ˈaʊtpʊt/",m:"產量",ex:"Factory <b>output</b> rose."},
+  {w:"packaging",p:"n.",ph:"/ˈpækɪdʒɪŋ/",m:"包裝",ex:"The <b>packaging</b> is eco-friendly."},
+  {w:"warehouse",p:"n.",ph:"/ˈweəhaʊs/",m:"倉庫",ex:"Stock is kept in the <b>warehouse</b>."},
+  {w:"assembly",p:"n.",ph:"/əˈsembli/",m:"裝配",ex:"The <b>assembly</b> line is automated."},
+  {w:"durability",p:"n.",ph:"/ˌdjʊərəˈbɪləti/",m:"耐久性",ex:"Test the product's <b>durability</b>."},
+  {w:"malfunction",p:"v.",ph:"/ˌmælˈfʌŋkʃən/",m:"故障",ex:"The machine <b>malfunctioned</b>."},
+  {w:"supplier",p:"n.",ph:"/səˈplaɪər/",m:"供應商",ex:"Find a reliable <b>supplier</b>."},
+  {w:"conveyor",p:"n.",ph:"/kənˈveɪər/",m:"輸送帶",ex:"Boxes move along the <b>conveyor</b>."},
+  {w:"amendment",p:"n.",ph:"/əˈmendmənt/",m:"修正案",ex:"An <b>amendment</b> was added."},
+  {w:"breach",p:"n.",ph:"/briːtʃ/",m:"違反",ex:"That is a <b>breach</b> of contract."},
+  {w:"clause",p:"n.",ph:"/klɔːz/",m:"條款",ex:"Read this <b>clause</b> carefully."},
+  {w:"contract",p:"n.",ph:"/ˈkɒntrækt/",m:"合約",ex:"Sign the <b>contract</b> here."},
+  {w:"enforce",p:"v.",ph:"/ɪnˈfɔːs/",m:"執行",ex:"Police <b>enforce</b> the rules."},
+  {w:"liable",p:"adj.",ph:"/ˈlaɪəbl/",m:"負有責任的",ex:"You are <b>liable</b> for damages."},
+  {w:"litigation",p:"n.",ph:"/ˌlɪtɪˈɡeɪʃən/",m:"訴訟",ex:"They are involved in <b>litigation</b>."},
+  {w:"negotiation",p:"n.",ph:"/nɪˌɡəʊʃiˈeɪʃən/",m:"談判",ex:"<b>Negotiations</b> are ongoing."},
+  {w:"provision",p:"n.",ph:"/prəˈvɪʒən/",m:"條款；規定",ex:"Under this <b>provision</b>, refunds apply."},
+  {w:"regulation",p:"n.",ph:"/ˌreɡjuˈleɪʃən/",m:"規定",ex:"Follow safety <b>regulations</b>."},
+  {w:"terminate",p:"v.",ph:"/ˈtɜːmɪneɪt/",m:"終止",ex:"They <b>terminated</b> the agreement."},
+  {w:"valid",p:"adj.",ph:"/ˈvælɪd/",m:"有效的",ex:"The ticket is <b>valid</b> for a month."},
+  {w:"waiver",p:"n.",ph:"/ˈweɪvər/",m:"棄權書",ex:"Sign the <b>waiver</b> before entry."},
+  {w:"binding",p:"adj.",ph:"/ˈbaɪndɪŋ/",m:"有約束力的",ex:"The contract is legally <b>binding</b>."},
+  {w:"infringe",p:"v.",ph:"/ɪnˈfrɪndʒ/",m:"侵犯",ex:"Do not <b>infringe</b> the patent."},
+  {w:"access",p:"v.",ph:"/ˈækses/",m:"存取",ex:"You can <b>access</b> files remotely."},
+  {w:"backup",p:"n.",ph:"/ˈbækʌp/",m:"備份",ex:"Make a <b>backup</b> of your data."},
+  {w:"device",p:"n.",ph:"/dɪˈvaɪs/",m:"裝置",ex:"Connect your <b>device</b> to wifi."},
+  {w:"download",p:"v.",ph:"/ˌdaʊnˈləʊd/",m:"下載",ex:"<b>Download</b> the latest version."},
+  {w:"encrypt",p:"v.",ph:"/ɪnˈkrɪpt/",m:"加密",ex:"All data is <b>encrypted</b>."},
+  {w:"install",p:"v.",ph:"/ɪnˈstɔːl/",m:"安裝",ex:"Please <b>install</b> the update."},
+  {w:"interface",p:"n.",ph:"/ˈɪntəfeɪs/",m:"介面",ex:"The <b>interface</b> is user-friendly."},
+  {w:"network",p:"n.",ph:"/ˈnetwɜːk/",m:"網路",ex:"The <b>network</b> is down."},
+  {w:"software",p:"n.",ph:"/ˈsɒftweər/",m:"軟體",ex:"Update your <b>software</b>."},
+  {w:"upgrade",p:"v.",ph:"/ˌʌpˈɡreɪd/",m:"升級",ex:"We <b>upgraded</b> the system."},
+  {w:"malware",p:"n.",ph:"/ˈmælweər/",m:"惡意軟體",ex:"Scan for <b>malware</b> regularly."},
+  {w:"server",p:"n.",ph:"/ˈsɜːvər/",m:"伺服器",ex:"The <b>server</b> crashed."},
+  {w:"compatible",p:"adj.",ph:"/kəmˈpætəbl/",m:"相容的",ex:"The app is <b>compatible</b> with all phones."},
+  {w:"glitch",p:"n.",ph:"/ɡlɪtʃ/",m:"小故障",ex:"A <b>glitch</b> delayed the launch."},
+  {w:"accurate",p:"adj.",ph:"/ˈækjərət/",m:"準確的",ex:"The figures are <b>accurate</b>."},
+  {w:"affordable",p:"adj.",ph:"/əˈfɔːdəbl/",m:"負擔得起的",ex:"The prices are <b>affordable</b>."},
+  {w:"ample",p:"adj.",ph:"/ˈæmpl/",m:"充足的",ex:"There is <b>ample</b> parking."},
+  {w:"beneficial",p:"adj.",ph:"/ˌbenɪˈfɪʃəl/",m:"有益的",ex:"Exercise is <b>beneficial</b>."},
+  {w:"compulsory",p:"adj.",ph:"/kəmˈpʌlsəri/",m:"強制的",ex:"Attendance is <b>compulsory</b>."},
+  {w:"consistent",p:"adj.",ph:"/kənˈsɪstənt/",m:"一致的",ex:"Keep your work <b>consistent</b>."},
+  {w:"convenient",p:"adj.",ph:"/kənˈviːniənt/",m:"方便的",ex:"The location is <b>convenient</b>."},
+  {w:"dependable",p:"adj.",ph:"/dɪˈpendəbl/",m:"可靠的",ex:"She is a <b>dependable</b> worker."},
+  {w:"desirable",p:"adj.",ph:"/dɪˈzaɪərəbl/",m:"令人嚮往的",ex:"A <b>desirable</b> location."},
+  {w:"exceptional",p:"adj.",ph:"/ɪkˈsepʃənl/",m:"卓越的",ex:"Her work is <b>exceptional</b>."},
+  {w:"extensive",p:"adj.",ph:"/ɪkˈstensɪv/",m:"廣泛的",ex:"He has <b>extensive</b> experience."},
+  {w:"flexible",p:"adj.",ph:"/ˈfleksəbl/",m:"彈性的",ex:"We offer <b>flexible</b> hours."},
+  {w:"frequent",p:"adj.",ph:"/ˈfriːkwənt/",m:"頻繁的",ex:"He is a <b>frequent</b> visitor."},
+  {w:"identical",p:"adj.",ph:"/aɪˈdentɪkl/",m:"完全相同的",ex:"The two are <b>identical</b>."},
+  {w:"inevitable",p:"adj.",ph:"/ɪnˈevɪtəbl/",m:"不可避免的",ex:"Change is <b>inevitable</b>."},
+  {w:"numerous",p:"adj.",ph:"/ˈnjuːmərəs/",m:"許多的",ex:"She received <b>numerous</b> awards."},
+  {w:"optional",p:"adj.",ph:"/ˈɒpʃənl/",m:"可選的",ex:"The tour is <b>optional</b>."},
+  {w:"permanent",p:"adj.",ph:"/ˈpɜːmənənt/",m:"永久的",ex:"He got a <b>permanent</b> position."},
+  {w:"punctual",p:"adj.",ph:"/ˈpʌŋktʃuəl/",m:"準時的",ex:"Please be <b>punctual</b>."},
+  {w:"reasonable",p:"adj.",ph:"/ˈriːznəbl/",m:"合理的",ex:"The price is <b>reasonable</b>."},
+  {w:"reliable",p:"adj.",ph:"/rɪˈlaɪəbl/",m:"可靠的",ex:"Use a <b>reliable</b> source."},
+  {w:"remarkable",p:"adj.",ph:"/rɪˈmɑːkəbl/",m:"非凡的",ex:"A <b>remarkable</b> achievement."},
+  {w:"significant",p:"adj.",ph:"/sɪɡˈnɪfɪkənt/",m:"重大的",ex:"A <b>significant</b> increase."},
+  {w:"temporary",p:"adj.",ph:"/ˈtempərəri/",m:"暫時的",ex:"This is a <b>temporary</b> solution."},
+  {w:"thorough",p:"adj.",ph:"/ˈθʌrə/",m:"徹底的",ex:"Do a <b>thorough</b> check."},
+  {w:"urgent",p:"adj.",ph:"/ˈɜːdʒənt/",m:"緊急的",ex:"This is an <b>urgent</b> matter."},
+  {w:"valuable",p:"adj.",ph:"/ˈvæljuəbl/",m:"有價值的",ex:"Time is <b>valuable</b>."},
+  {w:"adapt",p:"v.",ph:"/əˈdæpt/",m:"適應",ex:"We must <b>adapt</b> to change."},
+  {w:"address",p:"v.",ph:"/əˈdres/",m:"處理；演說",ex:"We will <b>address</b> the issue."},
+  {w:"approach",p:"v.",ph:"/əˈprəʊtʃ/",m:"接近；著手",ex:"How should we <b>approach</b> this?"},
+  {w:"arrange",p:"v.",ph:"/əˈreɪndʒ/",m:"安排",ex:"I will <b>arrange</b> a meeting."},
+  {w:"attribute",p:"v.",ph:"/əˈtrɪbjuːt/",m:"歸因於",ex:"Success is <b>attributed</b> to teamwork."},
+  {w:"conduct",p:"v.",ph:"/kənˈdʌkt/",m:"進行",ex:"They <b>conduct</b> research."},
+  {w:"confirm",p:"v.",ph:"/kənˈfɜːm/",m:"確認",ex:"Please <b>confirm</b> your attendance."},
+  {w:"consider",p:"v.",ph:"/kənˈsɪdər/",m:"考慮",ex:"We will <b>consider</b> your request."},
+  {w:"contribute",p:"v.",ph:"/kənˈtrɪbjuːt/",m:"貢獻",ex:"Everyone <b>contributed</b> ideas."},
+  {w:"demonstrate",p:"v.",ph:"/ˈdemənstreɪt/",m:"示範；證明",ex:"Let me <b>demonstrate</b> the feature."},
+  {w:"determine",p:"v.",ph:"/dɪˈtɜːmɪn/",m:"決定；確定",ex:"We need to <b>determine</b> the cause."},
+  {w:"examine",p:"v.",ph:"/ɪɡˈzæmɪn/",m:"檢查",ex:"The doctor will <b>examine</b> you."},
+  {w:"expand",p:"v.",ph:"/ɪkˈspænd/",m:"擴展",ex:"They plan to <b>expand</b> overseas."},
+  {w:"indicate",p:"v.",ph:"/ˈɪndɪkeɪt/",m:"表明",ex:"Results <b>indicate</b> growth."},
+  {w:"maintain",p:"v.",ph:"/meɪnˈteɪn/",m:"維持",ex:"We <b>maintain</b> high standards."},
+  {w:"propose",p:"v.",ph:"/prəˈpəʊz/",m:"提議",ex:"I <b>propose</b> a new plan."},
+  {w:"recommend",p:"v.",ph:"/ˌrekəˈmend/",m:"推薦",ex:"I <b>recommend</b> this book."},
+  {w:"reduce",p:"v.",ph:"/rɪˈdjuːs/",m:"減少",ex:"We aim to <b>reduce</b> costs."},
+  {w:"require",p:"v.",ph:"/rɪˈkwaɪər/",m:"需要；要求",ex:"The job <b>requires</b> a degree."},
+  {w:"resolve",p:"v.",ph:"/rɪˈzɒlv/",m:"解決",ex:"Let's <b>resolve</b> the dispute."},
+  {w:"respond",p:"v.",ph:"/rɪˈspɒnd/",m:"回應",ex:"Please <b>respond</b> by Friday."},
+  {w:"submit",p:"v.",ph:"/səbˈmɪt/",m:"提交",ex:"<b>Submit</b> your report online."},
+  {w:"transfer",p:"v.",ph:"/trænsˈfɜːr/",m:"轉移",ex:"He was <b>transferred</b> to Tokyo."},
+  {w:"utilize",p:"v.",ph:"/ˈjuːtɪlaɪz/",m:"利用",ex:"We <b>utilize</b> renewable energy."},
+  {w:"undertake",p:"v.",ph:"/ˌʌndəˈteɪk/",m:"承擔",ex:"They <b>undertook</b> a big project."},
+  {w:"inquiry",p:"n.",ph:"/ɪnˈkwaɪəri/",m:"詢問",ex:"We received an <b>inquiry</b> about prices."},
+  {w:"complaint",p:"n.",ph:"/kəmˈpleɪnt/",m:"抱怨；投訴",ex:"The customer filed a <b>complaint</b>."},
+  {w:"apologize",p:"v.",ph:"/əˈpɒlədʒaɪz/",m:"道歉",ex:"We <b>apologize</b> for the delay."},
+  {w:"assure",p:"v.",ph:"/əˈʃʊər/",m:"向…保證",ex:"I <b>assure</b> you it will be fixed."},
+  {w:"forward",p:"v.",ph:"/ˈfɔːwəd/",m:"轉寄",ex:"Could you <b>forward</b> this email?"},
+  {w:"reply",p:"v.",ph:"/rɪˈplaɪ/",m:"回覆",ex:"She will <b>reply</b> tomorrow."},
+  {w:"attach",p:"v.",ph:"/əˈtætʃ/",m:"附加",ex:"I <b>attached</b> the file."},
+  {w:"enclose",p:"v.",ph:"/ɪnˈkləʊz/",m:"隨函附上",ex:"Please find <b>enclosed</b> the invoice."},
+  {w:"regarding",p:"prep.",ph:"/rɪˈɡɑːdɪŋ/",m:"關於",ex:"I am writing <b>regarding</b> your order."},
+  {w:"sincerely",p:"adv.",ph:"/sɪnˈsɪəli/",m:"誠摯地",ex:"<b>Sincerely</b> yours, John."},
+  {w:"courteous",p:"adj.",ph:"/ˈkɜːtiəs/",m:"有禮貌的",ex:"The staff are very <b>courteous</b>."},
+  {w:"prompt",p:"adj.",ph:"/prɒmpt/",m:"迅速的",ex:"Thank you for your <b>prompt</b> reply."},
+  {w:"satisfaction",p:"n.",ph:"/ˌsætɪsˈfækʃən/",m:"滿意",ex:"Customer <b>satisfaction</b> is our priority."},
+  {w:"approximate",p:"adj.",ph:"/əˈprɒksɪmət/",m:"大約的",ex:"The <b>approximate</b> cost is $500."},
+  {w:"figure",p:"n.",ph:"/ˈfɪɡər/",m:"數字",ex:"Sales <b>figures</b> rose sharply."},
+  {w:"margin",p:"n.",ph:"/ˈmɑːdʒɪn/",m:"利潤率",ex:"Profit <b>margins</b> are tight."},
+  {w:"portion",p:"n.",ph:"/ˈpɔːʃən/",m:"部分",ex:"A large <b>portion</b> went to research."},
+  {w:"quarter",p:"n.",ph:"/ˈkwɔːtər/",m:"季度",ex:"Revenue grew this <b>quarter</b>."},
+  {w:"ratio",p:"n.",ph:"/ˈreɪʃiəʊ/",m:"比率",ex:"The debt <b>ratio</b> improved."},
+  {w:"subtotal",p:"n.",ph:"/ˈsʌbtəʊtl/",m:"小計",ex:"Check the <b>subtotal</b> first."},
+  {w:"threshold",p:"n.",ph:"/ˈθreʃhəʊld/",m:"門檻",ex:"Sales passed the <b>threshold</b>."},
+  {w:"yield",p:"n.",ph:"/jiːld/",m:"收益",ex:"The investment had a high <b>yield</b>."},
+  {w:"fluctuate",p:"v.",ph:"/ˈflʌktʃueɪt/",m:"波動",ex:"Prices <b>fluctuate</b> daily."},
+  {w:"calculate",p:"v.",ph:"/ˈkælkjuleɪt/",m:"計算",ex:"<b>Calculate</b> the total cost."},
+  {w:"lease",p:"n.",ph:"/liːs/",m:"租約",ex:"Sign the <b>lease</b> agreement."},
+  {w:"tenant",p:"n.",ph:"/ˈtenənt/",m:"租戶",ex:"The <b>tenant</b> pays monthly rent."},
+  {w:"landlord",p:"n.",ph:"/ˈlændlɔːd/",m:"房東",ex:"The <b>landlord</b> raised the rent."},
+  {w:"premises",p:"n.",ph:"/ˈpremɪsɪz/",m:"場所",ex:"No smoking on the <b>premises</b>."},
+  {w:"occupancy",p:"n.",ph:"/ˈɒkjupənsi/",m:"入住率",ex:"Hotel <b>occupancy</b> is high."},
+  {w:"renovation",p:"n.",ph:"/ˌrenəˈveɪʃən/",m:"翻修",ex:"The <b>renovation</b> took two months."},
+  {w:"furnish",p:"v.",ph:"/ˈfɜːnɪʃ/",m:"配備傢俱",ex:"The flat is fully <b>furnished</b>."},
+  {w:"vacant",p:"adj.",ph:"/ˈveɪkənt/",m:"空置的",ex:"The office is <b>vacant</b>."},
+  {w:"spacious",p:"adj.",ph:"/ˈspeɪʃəs/",m:"寬敞的",ex:"The room is <b>spacious</b>."},
+  {w:"utility",p:"n.",ph:"/juːˈtɪləti/",m:"公用事業",ex:"<b>Utility</b> bills are included."},
+  {w:"amenity",p:"n.",ph:"/əˈmiːnəti/",m:"便利設施",ex:"The hotel has many <b>amenities</b>."},
+  {w:"relocate",p:"v.",ph:"/ˌriːləʊˈkeɪt/",m:"遷移",ex:"The firm will <b>relocate</b> downtown."},
+  {w:"prescription",p:"n.",ph:"/prɪˈskrɪpʃən/",m:"處方",ex:"Pick up your <b>prescription</b>."},
+  {w:"pharmacy",p:"n.",ph:"/ˈfɑːməsi/",m:"藥局",ex:"The <b>pharmacy</b> closes at nine."},
+  {w:"symptom",p:"n.",ph:"/ˈsɪmptəm/",m:"症狀",ex:"Describe your <b>symptoms</b>."},
+  {w:"treatment",p:"n.",ph:"/ˈtriːtmənt/",m:"治療",ex:"The <b>treatment</b> was effective."},
+  {w:"recover",p:"v.",ph:"/rɪˈkʌvər/",m:"康復",ex:"She will <b>recover</b> soon."},
+  {w:"nutrition",p:"n.",ph:"/njuˈtrɪʃən/",m:"營養",ex:"Good <b>nutrition</b> is important."},
+  {w:"physician",p:"n.",ph:"/fɪˈzɪʃən/",m:"醫師",ex:"Consult your <b>physician</b>."},
+  {w:"clinic",p:"n.",ph:"/ˈklɪnɪk/",m:"診所",ex:"The <b>clinic</b> opens early."},
+  {w:"dosage",p:"n.",ph:"/ˈdəʊsɪdʒ/",m:"劑量",ex:"Follow the recommended <b>dosage</b>."},
+  {w:"seminar",p:"n.",ph:"/ˈsemɪnɑːr/",m:"研討會",ex:"Attend the marketing <b>seminar</b>."},
+  {w:"workshop",p:"n.",ph:"/ˈwɜːkʃɒp/",m:"工作坊",ex:"Sign up for the <b>workshop</b>."},
+  {w:"curriculum",p:"n.",ph:"/kəˈrɪkjuləm/",m:"課程",ex:"The <b>curriculum</b> was updated."},
+  {w:"instructor",p:"n.",ph:"/ɪnˈstrʌktər/",m:"講師",ex:"The <b>instructor</b> is experienced."},
+  {w:"certificate",p:"n.",ph:"/səˈtɪfɪkət/",m:"證書",ex:"You earn a <b>certificate</b>."},
+  {w:"enroll",p:"v.",ph:"/ɪnˈrəʊl/",m:"註冊",ex:"<b>Enroll</b> in the course online."},
+  {w:"lecture",p:"n.",ph:"/ˈlektʃər/",m:"演講",ex:"The <b>lecture</b> was informative."},
+  {w:"session",p:"n.",ph:"/ˈseʃən/",m:"場次",ex:"The training <b>session</b> lasts an hour."},
+  {w:"tuition",p:"n.",ph:"/tjuˈɪʃən/",m:"學費",ex:"<b>Tuition</b> fees increased."},
+  {w:"orientation",p:"n.",ph:"/ˌɔːriənˈteɪʃən/",m:"新生/職前說明",ex:"New staff attend <b>orientation</b>."},
+  {w:"competent",p:"adj.",ph:"/ˈkɒmpɪtənt/",m:"有能力的",ex:"She is a <b>competent</b> trainer."},
+  {w:"proficient",p:"adj.",ph:"/prəˈfɪʃənt/",m:"熟練的",ex:"He is <b>proficient</b> in English."},
+  {w:"cuisine",p:"n.",ph:"/kwɪˈziːn/",m:"料理",ex:"The <b>cuisine</b> is excellent."},
+  {w:"beverage",p:"n.",ph:"/ˈbevərɪdʒ/",m:"飲料",ex:"<b>Beverages</b> are complimentary."},
+  {w:"catering",p:"n.",ph:"/ˈkeɪtərɪŋ/",m:"外燴",ex:"We hired a <b>catering</b> service."},
+  {w:"banquet",p:"n.",ph:"/ˈbæŋkwɪt/",m:"宴會",ex:"The <b>banquet</b> hall is booked."},
+  {w:"venue",p:"n.",ph:"/ˈvenjuː/",m:"場地",ex:"The <b>venue</b> holds 300 people."},
+  {w:"celebration",p:"n.",ph:"/ˌselɪˈbreɪʃən/",m:"慶祝",ex:"Join the anniversary <b>celebration</b>."},
+  {w:"complimentary",p:"adj.",ph:"/ˌkɒmplɪˈmentəri/",m:"免費贈送的",ex:"Breakfast is <b>complimentary</b>."},
+  {w:"gourmet",p:"adj.",ph:"/ˈɡʊəmeɪ/",m:"美食的",ex:"They serve <b>gourmet</b> meals."},
+  {w:"refreshment",p:"n.",ph:"/rɪˈfreʃmənt/",m:"茶點",ex:"<b>Refreshments</b> will be served."},
+  {w:"conserve",p:"v.",ph:"/kənˈsɜːv/",m:"節約",ex:"We must <b>conserve</b> energy."},
+  {w:"emission",p:"n.",ph:"/ɪˈmɪʃən/",m:"排放",ex:"Reduce carbon <b>emissions</b>."},
+  {w:"renewable",p:"adj.",ph:"/rɪˈnjuːəbl/",m:"可再生的",ex:"Invest in <b>renewable</b> energy."},
+  {w:"sustainable",p:"adj.",ph:"/səˈsteɪnəbl/",m:"永續的",ex:"Adopt <b>sustainable</b> practices."},
+  {w:"pollution",p:"n.",ph:"/pəˈluːʃən/",m:"污染",ex:"Air <b>pollution</b> is a concern."},
+  {w:"recycle",p:"v.",ph:"/ˌriːˈsaɪkl/",m:"回收",ex:"Please <b>recycle</b> paper."},
+  {w:"dispose",p:"v.",ph:"/dɪˈspəʊz/",m:"處置",ex:"<b>Dispose</b> of waste properly."},
+  {w:"hazard",p:"n.",ph:"/ˈhæzəd/",m:"危害",ex:"Report any safety <b>hazard</b>."},
+  {w:"contaminate",p:"v.",ph:"/kənˈtæmɪneɪt/",m:"污染",ex:"The water was <b>contaminated</b>."},
+  {w:"achieve",p:"v.",ph:"/əˈtʃiːv/",m:"達成",ex:"We <b>achieved</b> our goal."},
+  {w:"adjust",p:"v.",ph:"/əˈdʒʌst/",m:"調整",ex:"Please <b>adjust</b> the settings."},
+  {w:"assist",p:"v.",ph:"/əˈsɪst/",m:"協助",ex:"Can I <b>assist</b> you?"},
+  {w:"combine",p:"v.",ph:"/kəmˈbaɪn/",m:"結合",ex:"We <b>combine</b> two teams."},
+  {w:"compare",p:"v.",ph:"/kəmˈpeər/",m:"比較",ex:"<b>Compare</b> the two options."},
+  {w:"complete",p:"v.",ph:"/kəmˈpliːt/",m:"完成",ex:"<b>Complete</b> the form."},
+  {w:"contain",p:"v.",ph:"/kənˈteɪn/",m:"包含",ex:"The box <b>contains</b> samples."},
+  {w:"continue",p:"v.",ph:"/kənˈtɪnjuː/",m:"繼續",ex:"We will <b>continue</b> the project."},
+  {w:"convert",p:"v.",ph:"/kənˈvɜːt/",m:"轉換",ex:"<b>Convert</b> the file to PDF."},
+  {w:"deliver",p:"v.",ph:"/dɪˈlɪvər/",m:"遞送",ex:"We <b>deliver</b> nationwide."},
+  {w:"describe",p:"v.",ph:"/dɪˈskraɪb/",m:"描述",ex:"<b>Describe</b> the problem."},
+  {w:"develop",p:"v.",ph:"/dɪˈveləp/",m:"開發",ex:"We <b>develop</b> new products."},
+  {w:"discover",p:"v.",ph:"/dɪˈskʌvər/",m:"發現",ex:"They <b>discovered</b> an error."},
+  {w:"encourage",p:"v.",ph:"/ɪnˈkʌrɪdʒ/",m:"鼓勵",ex:"We <b>encourage</b> feedback."},
+  {w:"ensure",p:"v.",ph:"/ɪnˈʃʊər/",m:"確保",ex:"<b>Ensure</b> the door is locked."},
+  {w:"establish",p:"v.",ph:"/ɪˈstæblɪʃ/",m:"建立",ex:"They <b>established</b> a branch."},
+  {w:"expect",p:"v.",ph:"/ɪkˈspekt/",m:"預期",ex:"We <b>expect</b> good results."},
+  {w:"explain",p:"v.",ph:"/ɪkˈspleɪn/",m:"解釋",ex:"Let me <b>explain</b> the plan."},
+  {w:"identify",p:"v.",ph:"/aɪˈdentɪfaɪ/",m:"辨識",ex:"<b>Identify</b> the main issue."},
+  {w:"improve",p:"v.",ph:"/ɪmˈpruːv/",m:"改善",ex:"We aim to <b>improve</b> quality."},
+  {w:"include",p:"v.",ph:"/ɪnˈkluːd/",m:"包括",ex:"The price <b>includes</b> tax."},
+  {w:"increase",p:"v.",ph:"/ɪnˈkriːs/",m:"增加",ex:"Sales <b>increased</b> by 20%."},
+  {w:"introduce",p:"v.",ph:"/ˌɪntrəˈdjuːs/",m:"介紹；引進",ex:"We <b>introduced</b> a new policy."},
+  {w:"manage",p:"v.",ph:"/ˈmænɪdʒ/",m:"管理",ex:"She <b>manages</b> the team."},
+  {w:"measure",p:"v.",ph:"/ˈmeʒər/",m:"測量",ex:"<b>Measure</b> the room first."},
+  {w:"offer",p:"v.",ph:"/ˈɒfər/",m:"提供",ex:"We <b>offer</b> free shipping."},
+  {w:"operate",p:"v.",ph:"/ˈɒpəreɪt/",m:"運作",ex:"The machine <b>operates</b> smoothly."},
+  {w:"organize",p:"v.",ph:"/ˈɔːɡənaɪz/",m:"組織",ex:"<b>Organize</b> the files by date."},
+  {w:"perform",p:"v.",ph:"/pəˈfɔːm/",m:"執行；表現",ex:"The team <b>performed</b> well."},
+  {w:"prepare",p:"v.",ph:"/prɪˈpeər/",m:"準備",ex:"<b>Prepare</b> the report."},
+  {w:"prevent",p:"v.",ph:"/prɪˈvent/",m:"預防",ex:"<b>Prevent</b> further damage."},
+  {w:"produce",p:"v.",ph:"/prəˈdjuːs/",m:"生產",ex:"They <b>produce</b> furniture."},
+  {w:"provide",p:"v.",ph:"/prəˈvaɪd/",m:"提供",ex:"We <b>provide</b> support."},
+  {w:"purchase",p:"v.",ph:"/ˈpɜːtʃəs/",m:"購買",ex:"<b>Purchase</b> tickets online."},
+  {w:"receive",p:"v.",ph:"/rɪˈsiːv/",m:"收到",ex:"We <b>received</b> your order."},
+  {w:"recognize",p:"v.",ph:"/ˈrekəɡnaɪz/",m:"認可；認出",ex:"We <b>recognize</b> your effort."},
+  {w:"reflect",p:"v.",ph:"/rɪˈflekt/",m:"反映",ex:"Prices <b>reflect</b> quality."},
+  {w:"register",p:"v.",ph:"/ˈredʒɪstər/",m:"登記",ex:"<b>Register</b> before the event."},
+  {w:"remain",p:"v.",ph:"/rɪˈmeɪn/",m:"保持",ex:"Prices <b>remain</b> stable."},
+  {w:"remind",p:"v.",ph:"/rɪˈmaɪnd/",m:"提醒",ex:"<b>Remind</b> me about the meeting."},
+  {w:"replace",p:"v.",ph:"/rɪˈpleɪs/",m:"替換",ex:"<b>Replace</b> the broken part."},
+  {w:"request",p:"v.",ph:"/rɪˈkwest/",m:"請求",ex:"<b>Request</b> a refund online."},
+  {w:"respect",p:"v.",ph:"/rɪˈspekt/",m:"尊重",ex:"We <b>respect</b> your privacy."},
+  {w:"select",p:"v.",ph:"/sɪˈlekt/",m:"選擇",ex:"<b>Select</b> a payment method."},
+  {w:"suggest",p:"v.",ph:"/səˈdʒest/",m:"建議",ex:"I <b>suggest</b> a different approach."},
+  {w:"support",p:"v.",ph:"/səˈpɔːt/",m:"支持",ex:"We <b>support</b> local business."},
+  {w:"advantage",p:"n.",ph:"/ədˈvɑːntɪdʒ/",m:"優勢",ex:"This gives us an <b>advantage</b>."},
+  {w:"aspect",p:"n.",ph:"/ˈæspekt/",m:"方面",ex:"Consider every <b>aspect</b>."},
+  {w:"category",p:"n.",ph:"/ˈkætəɡəri/",m:"類別",ex:"Sort items by <b>category</b>."},
+  {w:"circumstance",p:"n.",ph:"/ˈsɜːkəmstəns/",m:"情況",ex:"Under these <b>circumstances</b>, we agree."},
+  {w:"consequence",p:"n.",ph:"/ˈkɒnsɪkwəns/",m:"後果",ex:"Consider the <b>consequences</b>."},
+  {w:"criterion",p:"n.",ph:"/kraɪˈtɪəriən/",m:"標準",ex:"Meet the main <b>criterion</b>."},
+  {w:"emphasis",p:"n.",ph:"/ˈemfəsɪs/",m:"重點",ex:"Place <b>emphasis</b> on quality."},
+  {w:"factor",p:"n.",ph:"/ˈfæktər/",m:"因素",ex:"Cost is a key <b>factor</b>."},
+  {w:"function",p:"n.",ph:"/ˈfʌŋkʃən/",m:"功能",ex:"Each button has a <b>function</b>."},
+  {w:"impact",p:"n.",ph:"/ˈɪmpækt/",m:"影響",ex:"The change had a big <b>impact</b>."},
+  {w:"method",p:"n.",ph:"/ˈmeθəd/",m:"方法",ex:"Use a reliable <b>method</b>."},
+  {w:"outcome",p:"n.",ph:"/ˈaʊtkʌm/",m:"結果",ex:"The <b>outcome</b> was positive."},
+  {w:"perspective",p:"n.",ph:"/pəˈspektɪv/",m:"觀點",ex:"Offer a fresh <b>perspective</b>."},
+  {w:"phase",p:"n.",ph:"/feɪz/",m:"階段",ex:"We are in the final <b>phase</b>."},
+  {w:"priority",p:"n.",ph:"/praɪˈɒrəti/",m:"優先事項",ex:"Safety is our top <b>priority</b>."},
+  {w:"range",p:"n.",ph:"/reɪndʒ/",m:"範圍",ex:"We offer a wide <b>range</b>."},
+  {w:"requirement",p:"n.",ph:"/rɪˈkwaɪəmənt/",m:"要求",ex:"Meet all the <b>requirements</b>."},
+  {w:"scope",p:"n.",ph:"/skəʊp/",m:"範圍",ex:"Define the project <b>scope</b>."},
+  {w:"standard",p:"n.",ph:"/ˈstændəd/",m:"標準",ex:"Maintain high <b>standards</b>."},
+  {w:"structure",p:"n.",ph:"/ˈstrʌktʃər/",m:"結構",ex:"The <b>structure</b> is solid."},
+  {w:"variety",p:"n.",ph:"/vəˈraɪəti/",m:"多樣性",ex:"We offer a <b>variety</b> of options."},
+  {w:"appropriate",p:"adj.",ph:"/əˈprəʊpriət/",m:"適當的",ex:"Wear <b>appropriate</b> attire."},
+  {w:"complex",p:"adj.",ph:"/ˈkɒmpleks/",m:"複雜的",ex:"It is a <b>complex</b> issue."},
+  {w:"critical",p:"adj.",ph:"/ˈkrɪtɪkl/",m:"關鍵的",ex:"Timing is <b>critical</b>."},
+  {w:"current",p:"adj.",ph:"/ˈkʌrənt/",m:"目前的",ex:"Check the <b>current</b> status."},
+  {w:"distinct",p:"adj.",ph:"/dɪˈstɪŋkt/",m:"明顯不同的",ex:"They are <b>distinct</b> products."},
+  {w:"eager",p:"adj.",ph:"/ˈiːɡər/",m:"渴望的",ex:"She is <b>eager</b> to learn."},
+  {w:"initial",p:"adj.",ph:"/ɪˈnɪʃəl/",m:"最初的",ex:"The <b>initial</b> cost is high."},
+  {w:"intense",p:"adj.",ph:"/ɪnˈtens/",m:"強烈的",ex:"There is <b>intense</b> competition."},
+  {w:"major",p:"adj.",ph:"/ˈmeɪdʒər/",m:"主要的",ex:"A <b>major</b> change is coming."},
+  {w:"minor",p:"adj.",ph:"/ˈmaɪnər/",m:"次要的",ex:"It is a <b>minor</b> problem."},
+  {w:"multiple",p:"adj.",ph:"/ˈmʌltɪpl/",m:"多個的",ex:"Choose from <b>multiple</b> options."},
+  {w:"potential",p:"adj.",ph:"/pəˈtenʃəl/",m:"潛在的",ex:"Identify <b>potential</b> risks."},
+  {w:"precise",p:"adj.",ph:"/prɪˈsaɪs/",m:"精確的",ex:"Give a <b>precise</b> answer."},
+  {w:"primary",p:"adj.",ph:"/ˈpraɪməri/",m:"主要的",ex:"Our <b>primary</b> goal is growth."},
+  {w:"relevant",p:"adj.",ph:"/ˈreləvənt/",m:"相關的",ex:"Provide <b>relevant</b> details."},
+  {w:"specific",p:"adj.",ph:"/spəˈsɪfɪk/",m:"特定的",ex:"Give a <b>specific</b> example."},
+  {w:"stable",p:"adj.",ph:"/ˈsteɪbl/",m:"穩定的",ex:"The market is <b>stable</b>."},
+  {w:"strict",p:"adj.",ph:"/strɪkt/",m:"嚴格的",ex:"Follow the <b>strict</b> rules."},
+  {w:"subsequent",p:"adj.",ph:"/ˈsʌbsɪkwənt/",m:"隨後的",ex:"See <b>subsequent</b> reports."},
+  {w:"vague",p:"adj.",ph:"/veɪɡ/",m:"模糊的",ex:"His answer was <b>vague</b>."},
+  {w:"widespread",p:"adj.",ph:"/ˈwaɪdspred/",m:"廣泛的",ex:"The change is <b>widespread</b>."},
+  {w:"headquarters",p:"n.",ph:"/ˌhedˈkwɔːtəz/",m:"總部",ex:"The <b>headquarters</b> is in Tokyo."},
+  {w:"overtime",p:"n.",ph:"/ˈəʊvətaɪm/",m:"加班",ex:"He worked <b>overtime</b> last night."},
+  {w:"shift",p:"n.",ph:"/ʃɪft/",m:"輪班",ex:"She works the night <b>shift</b>."},
+  {w:"premium",p:"n.",ph:"/ˈpriːmiəm/",m:"保費；額外費用",ex:"Pay a <b>premium</b> for express delivery."},
+  {w:"depend",p:"v.",ph:"/dɪˈpend/",m:"依賴；取決於",ex:"The result <b>depends</b> on the weather."},
+  {w:"participate",p:"v.",ph:"/pɑːˈtɪsɪpeɪt/",m:"參與",ex:"Many staff <b>participate</b> in training."},
+  {w:"rely",p:"v.",ph:"/rɪˈlaɪ/",m:"依賴",ex:"We <b>rely</b> on accurate data."},
+  {w:"consist",p:"v.",ph:"/kənˈsɪst/",m:"由…組成",ex:"The team <b>consists</b> of five people."},
+  {w:"apply",p:"v.",ph:"/əˈplaɪ/",m:"申請；應用",ex:"<b>Apply</b> for the job online."},
+  {w:"object",p:"v.",ph:"/əbˈdʒekt/",m:"反對",ex:"They <b>objected</b> to the plan."},
+  {w:"result",p:"v.",ph:"/rɪˈzʌlt/",m:"導致",ex:"The delay <b>resulted</b> in extra cost."},
+  {w:"focus",p:"v.",ph:"/ˈfəʊkəs/",m:"專注",ex:"<b>Focus</b> on the main goal."},
+  {w:"decide",p:"v.",ph:"/dɪˈsaɪd/",m:"決定",ex:"They <b>decided</b> to expand."},
+  {w:"compete",p:"v.",ph:"/kəmˈpiːt/",m:"競爭",ex:"Firms <b>compete</b> for clients."},
+  {w:"create",p:"v.",ph:"/kriˈeɪt/",m:"創造",ex:"We <b>create</b> custom designs."},
+  {w:"attract",p:"v.",ph:"/əˈtrækt/",m:"吸引",ex:"The offer <b>attracts</b> buyers."},
+  {w:"succeed",p:"v.",ph:"/səkˈsiːd/",m:"成功",ex:"They <b>succeeded</b> in the launch."},
+  {w:"despite",p:"prep.",ph:"/dɪˈspaɪt/",m:"儘管",ex:"<b>Despite</b> the delay, we finished."},
+  {w:"although",p:"conj.",ph:"/ɔːlˈðəʊ/",m:"雖然",ex:"<b>Although</b> it rained, we went."},
+  {w:"because",p:"conj.",ph:"/bɪˈkɒz/",m:"因為",ex:"We left <b>because</b> it was late."},
+  {w:"during",p:"prep.",ph:"/ˈdjʊərɪŋ/",m:"在…期間",ex:"Stay quiet <b>during</b> the talk."},
+  {w:"while",p:"conj.",ph:"/waɪl/",m:"當…時",ex:"<b>While</b> she spoke, I listened."},
+  {w:"report",p:"n.",ph:"/rɪˈpɔːt/",m:"報告",ex:"Submit the <b>report</b> by Friday."},
+  {w:"invest",p:"v.",ph:"/ɪnˈvest/",m:"投資",ex:"They <b>invest</b> in technology."},
+  {w:"capable",p:"adj.",ph:"/ˈkeɪpəbl/",m:"有能力的",ex:"She is <b>capable</b> of leading."},
+  {w:"responsible",p:"adj.",ph:"/rɪˈspɒnsəbl/",m:"負責的",ex:"He is <b>responsible</b> for sales."},
+  {w:"interested",p:"adj.",ph:"/ˈɪntrəstɪd/",m:"感興趣的",ex:"I am <b>interested</b> in the role."},
+  {w:"familiar",p:"adj.",ph:"/fəˈmɪliər/",m:"熟悉的",ex:"Are you <b>familiar</b> with this tool?"},
+  {w:"aware",p:"adj.",ph:"/əˈweər/",m:"意識到的",ex:"Be <b>aware</b> of the new rules."},
+  {w:"look",p:"v.",ph:"/lʊk/",m:"看；期待(look forward to)",ex:"We <b>look</b> forward to your reply."},
+];
+
+// ===== 狀態管理 (localStorage 嘗試，失敗則用記憶體) =====
+let store = {};
+function loadStore(){
+  try{const r=localStorage.getItem('toeic_v1');if(r)store=JSON.parse(r);}catch(e){}
+  store.known=store.known||{};
+  store.flag=store.flag||{};
+  store.custom=store.custom||[];
+  store.gdone=store.gdone||{};
+  store.todayDate=store.todayDate||'';
+  store.todayCount=store.todayCount||0;
+  store.streak=store.streak||0;
+  store.lastDay=store.lastDay||'';
+  const today=new Date().toDateString();
+  if(store.todayDate!==today){
+    // 計算 streak
+    const y=new Date(Date.now()-864e5).toDateString();
+    if(store.lastDay===y) store.streak=(store.streak||0)+1;
+    else if(store.lastDay!==today) store.streak=store.todayCount>0?1:(store.streak||0);
+    if(store.streak===0)store.streak=0;
+    store.todayDate=today;
+    store.todayCount=0;
+  }
+}
+function saveStore(){try{localStorage.setItem('toeic_v1',JSON.stringify(store));}catch(e){}}
+loadStore();
+// 合併使用者自訂單字
+let VOCAB = BUILTIN.concat(store.custom||[]);
+function rebuildVocab(){VOCAB = BUILTIN.concat(store.custom||[]);}
+
+const DAILY_GOAL=30;
+
+// ===== 階段文法小測驗（每背10個字觸發）=====
+
+const GBANK = {"acquire": {"type": "fill", "q": "The corporation ___ three startups since last year.", "o": ["acquire", "has acquired", "acquiring", "to acquire"], "a": 1, "e": "since last year → 現在完成式，用 has acquired。", "t": "這家公司自去年以來已收購了三家新創公司。"}, "implement": {"type": "order", "words": ["The team", "will", "implement", "the new policy", "next month"], "answer": "The team will implement the new policy next month", "e": "未來時間 next month → will + 原形 implement。主詞+助動詞+動詞+受詞+時間。", "t": "團隊下個月將實施新政策。"}, "submit": {"type": "fill", "q": "All reports must ___ before Friday.", "o": ["submit", "be submitted", "submitted", "submitting"], "a": 1, "e": "reports 是被提交的對象 → 被動 be submitted；情態動詞 must 後接原形 be。", "t": "所有報告必須在週五前提交。"}, "negotiate": {"type": "fill", "q": "They are currently ___ the terms of the contract.", "o": ["negotiate", "negotiated", "negotiating", "negotiates"], "a": 2, "e": "currently + be 動詞 are → 現在進行式，用 negotiating。", "t": "他們目前正在協商合約條款。"}, "exceed": {"type": "fill", "q": "Last quarter, sales ___ all expectations.", "o": ["exceed", "exceeded", "exceeding", "have exceeded"], "a": 1, "e": "Last quarter(明確過去)→ 過去式 exceeded。", "t": "上一季，銷售超出了所有預期。"}, "anticipate": {"type": "fill", "q": "We ___ a rise in demand next season.", "o": ["anticipate", "anticipated", "anticipating", "are anticipate"], "a": 0, "e": "陳述對未來的預期，主詞 we → 用現在式 anticipate。", "t": "我們預期下一季需求會上升。"}, "postpone": {"type": "fill", "q": "The meeting ___ until next week due to the storm.", "o": ["postponed", "was postponed", "postpone", "has postpone"], "a": 1, "e": "meeting 被延期 → 被動 was postponed。", "t": "由於暴風雨，會議延期到下週。"}, "assign": {"type": "order", "words": ["The manager", "assigned", "the task", "to me"], "answer": "The manager assigned the task to me", "e": "assign sth to sb：把某事指派給某人。主詞+動詞+受詞+介系詞片語。", "t": "經理把這項任務指派給我。"}, "reimburse": {"type": "fill", "q": "The company will ___ you for all travel expenses.", "o": ["reimburse", "reimbursed", "reimbursing", "reimbursement"], "a": 0, "e": "will 後接原形動詞 reimburse。reimbursement 是名詞,不能放這。", "t": "公司將為你報銷所有差旅費用。"}, "obtain": {"type": "fill", "q": "You must ___ written approval first.", "o": ["obtain", "obtained", "obtaining", "obtains"], "a": 0, "e": "情態動詞 must 後一律接原形 obtain。", "t": "你必須先取得書面核准。"}, "comply": {"type": "fill", "q": "All employees must comply ___ the safety rules.", "o": ["to", "with", "for", "on"], "a": 1, "e": "固定搭配 comply with（遵守）。介系詞題是多益高頻陷阱。", "t": "所有員工都必須遵守安全規定。"}, "collaborate": {"type": "fill", "q": "Our team will collaborate ___ the design department.", "o": ["with", "to", "for", "at"], "a": 0, "e": "collaborate with（與…合作）為固定搭配。", "t": "我們團隊將與設計部門合作。"}, "respond": {"type": "fill", "q": "Please respond ___ this email by noon.", "o": ["at", "to", "for", "with"], "a": 1, "e": "respond to（回覆）為固定搭配。", "t": "請在中午前回覆這封電子郵件。"}, "apologize": {"type": "fill", "q": "We apologize ___ the inconvenience caused.", "o": ["of", "for", "to", "at"], "a": 1, "e": "apologize for sth（為某事道歉）。", "t": "我們為造成的不便致歉。"}, "depend": {"type": "fill", "q": "The outcome depends ___ several factors.", "o": ["of", "on", "to", "in"], "a": 1, "e": "depend on（取決於）為固定搭配。", "t": "結果取決於幾個因素。"}, "contribute": {"type": "fill", "q": "Everyone contributed ___ the project's success.", "o": ["to", "for", "with", "in"], "a": 0, "e": "contribute to（對…有貢獻）。", "t": "每個人都對這個專案的成功有所貢獻。"}, "participate": {"type": "fill", "q": "Staff are encouraged to participate ___ the survey.", "o": ["to", "at", "in", "for"], "a": 2, "e": "participate in（參與）為固定搭配。", "t": "鼓勵員工參與這項調查。"}, "rely": {"type": "fill", "q": "We rely ___ accurate data to make decisions.", "o": ["in", "on", "to", "at"], "a": 1, "e": "rely on（依賴）為固定搭配。", "t": "我們依賴準確的數據來做決策。"}, "consist": {"type": "fill", "q": "The team consists ___ five members.", "o": ["in", "of", "with", "at"], "a": 1, "e": "consist of（由…組成）為固定搭配。", "t": "這個團隊由五名成員組成。"}, "register": {"type": "fill", "q": "Please register ___ the conference before May 1.", "o": ["to", "for", "at", "with"], "a": 1, "e": "register for（報名）為固定搭配。", "t": "請在五月一日前報名這場研討會。"}, "apply": {"type": "fill", "q": "She decided to apply ___ the manager position.", "o": ["to", "for", "on", "with"], "a": 1, "e": "apply for（申請職位）為固定搭配。", "t": "她決定應徵這個經理職位。"}, "object": {"type": "fill", "q": "Several members objected ___ the new proposal.", "o": ["to", "for", "against", "at"], "a": 0, "e": "object to（反對）為固定搭配。", "t": "幾位成員反對這項新提案。"}, "benefit": {"type": "fill", "q": "Both companies will benefit ___ the partnership.", "o": ["of", "from", "to", "with"], "a": 1, "e": "benefit from（從…受益）為固定搭配。", "t": "兩家公司都將從這項合作中受益。"}, "result": {"type": "fill", "q": "The delay resulted ___ higher costs.", "o": ["in", "of", "to", "from"], "a": 0, "e": "result in（導致)後接結果；result from 後接原因。此處接結果用 in。", "t": "這次延誤導致了更高的成本。"}, "focus": {"type": "fill", "q": "We should focus ___ improving quality.", "o": ["at", "on", "to", "in"], "a": 1, "e": "focus on（專注於）為固定搭配。", "t": "我們應該專注於提升品質。"}, "efficient": {"type": "fill", "q": "The new system runs much more ___ than before.", "o": ["efficient", "efficiency", "efficiently", "efficiencies"], "a": 2, "e": "修飾動詞 runs → 副詞 efficiently。more...than 是比較級。", "t": "新系統運作得比以前有效率得多。"}, "significant": {"type": "fill", "q": "There was a ___ increase in sales this year.", "o": ["significant", "significantly", "significance", "signify"], "a": 0, "e": "冠詞 a + ___ + 名詞 increase → 形容詞 significant。", "t": "今年銷售有顯著的成長。"}, "reliable": {"type": "fill", "q": "We need a ___ supplier for this project.", "o": ["rely", "reliable", "reliably", "reliability"], "a": 1, "e": "冠詞 a + ___ + 名詞 supplier → 形容詞 reliable。", "t": "這個專案我們需要一個可靠的供應商。"}, "approve": {"type": "fill", "q": "The board gave its ___ to the merger.", "o": ["approve", "approved", "approval", "approving"], "a": 2, "e": "its + ___ → 需名詞 approval（核准）。", "t": "董事會核准了這樁併購案。"}, "decide": {"type": "fill", "q": "They made an important ___ yesterday.", "o": ["decide", "decision", "decisive", "decisively"], "a": 1, "e": "冠詞 an + 形容詞 important + ___ → 名詞 decision。", "t": "他們昨天做了一個重要的決定。"}, "produce": {"type": "fill", "q": "The factory increased its ___ last month.", "o": ["produce", "product", "production", "productive"], "a": 2, "e": "its + ___ → 名詞;指「產量」用 production。", "t": "工廠上個月增加了產量。"}, "manage": {"type": "fill", "q": "Good ___ is the key to success.", "o": ["manage", "manager", "management", "managed"], "a": 2, "e": "形容詞 Good + ___ 當主詞 → 抽象名詞 management。", "t": "良好的管理是成功的關鍵。"}, "compete": {"type": "fill", "q": "The market has become highly ___.", "o": ["compete", "competition", "competitive", "competitively"], "a": 2, "e": "be 動詞 become + ___ → 形容詞 competitive。", "t": "這個市場競爭變得非常激烈。"}, "create": {"type": "fill", "q": "She is known for her ___ approach to design.", "o": ["create", "creation", "creative", "creatively"], "a": 2, "e": "形容詞所有格 her + ___ + 名詞 approach → 形容詞 creative。", "t": "她以充滿創意的設計手法聞名。"}, "attract": {"type": "fill", "q": "The offer is very ___ to young buyers.", "o": ["attract", "attraction", "attractive", "attractively"], "a": 2, "e": "be 動詞 is + very + ___ → 形容詞 attractive。", "t": "這個優惠對年輕買家非常有吸引力。"}, "succeed": {"type": "fill", "q": "The launch was a great ___.", "o": ["succeed", "success", "successful", "successfully"], "a": 1, "e": "冠詞 a + 形容詞 great + ___ → 名詞 success。", "t": "這次發表是一大成功。"}, "despite": {"type": "fill", "q": "___ the heavy rain, the event continued.", "o": ["Although", "Despite", "Because", "While"], "a": 1, "e": "後接名詞 the heavy rain → 介系詞 Despite。Although 須接句子。", "t": "儘管下著大雨，活動仍持續進行。"}, "although": {"type": "fill", "q": "___ the budget was tight, they finished on time.", "o": ["Despite", "Although", "Because of", "During"], "a": 1, "e": "後接句子(主詞+動詞)→ 連接詞 Although。Despite 須接名詞。", "t": "雖然預算很緊，他們仍準時完成。"}, "because": {"type": "fill", "q": "The flight was delayed ___ the storm.", "o": ["because", "because of", "although", "despite"], "a": 1, "e": "後接名詞 the storm → because of。because 須接句子。", "t": "班機因為暴風雨而延誤。"}, "during": {"type": "fill", "q": "Please turn off your phone ___ the presentation.", "o": ["while", "during", "because", "although"], "a": 1, "e": "後接名詞 the presentation → during。while 須接句子。", "t": "簡報期間請將手機關機。"}, "while": {"type": "fill", "q": "___ she was speaking, the lights went out.", "o": ["During", "While", "Despite", "Because of"], "a": 1, "e": "後接句子 → 連接詞 While。", "t": "當她在說話時，燈熄滅了。"}, "candidate": {"type": "fill", "q": "The candidate ___ resume impressed us was hired.", "o": ["who", "which", "whose", "whom"], "a": 2, "e": "表「他的履歷」所屬 → whose。", "t": "那位履歷讓我們印象深刻的應徵者被錄取了。"}, "applicant": {"type": "fill", "q": "The applicant ___ submitted the form early got priority.", "o": ["which", "who", "whose", "whom"], "a": 1, "e": "先行詞是人且當主詞 → who。", "t": "那位提早交表格的應徵者獲得了優先權。"}, "report": {"type": "fill", "q": "The report ___ yesterday contains key data.", "o": ["submit", "submitted", "submitting", "submits"], "a": 1, "e": "report 被提交 → 過去分詞 submitted（分詞修飾,被動關係）。", "t": "昨天提交的那份報告包含關鍵數據。"}, "shipment": {"type": "fill", "q": "The goods ___ last week have arrived.", "o": ["ship", "shipped", "shipping", "ships"], "a": 1, "e": "goods 被運送 → 過去分詞 shipped。", "t": "上週運送的貨物已經抵達。"}, "invest": {"type": "fill", "q": "If we had invested earlier, we ___ more profit.", "o": ["make", "made", "would have made", "will make"], "a": 2, "e": "與過去事實相反:If + had p.p. ... would have p.p.。", "t": "如果我們早點投資，就會賺到更多利潤。"}, "increase": {"type": "order", "words": ["Sales", "increased", "by", "20 percent", "last year"], "answer": "Sales increased by 20 percent last year", "e": "increase by + 數量(增加幅度)。last year → 過去式 increased。", "t": "去年銷售增加了百分之二十。"}, "schedule": {"type": "fill", "q": "The meeting is ___ for 3 p.m. tomorrow.", "o": ["schedule", "scheduled", "scheduling", "schedules"], "a": 1, "e": "meeting 被安排 → 被動 is scheduled。be scheduled for + 時間。", "t": "會議安排在明天下午三點。"}, "require": {"type": "fill", "q": "This position ___ at least three years of experience.", "o": ["require", "requires", "requiring", "required"], "a": 1, "e": "主詞 This position(單數)→ 動詞加 s,requires。", "t": "這個職位需要至少三年的經驗。"}, "recommend": {"type": "fill", "q": "The doctor recommended that he ___ more rest.", "o": ["gets", "get", "got", "getting"], "a": 1, "e": "recommend that + 主詞 + (should) 原形 → get。這是建議語氣。", "t": "醫生建議他多休息。"}, "consider": {"type": "fill", "q": "We are ___ expanding into new markets.", "o": ["consider", "considered", "considering", "considers"], "a": 2, "e": "be 動詞 are + ___ → 進行式 considering。consider 後接動名詞。", "t": "我們正在考慮拓展到新市場。"}, "look": {"type": "fill", "q": "We look forward ___ hearing from you.", "o": ["to", "for", "at", "on"], "a": 0, "e": "look forward to + 動名詞(to 是介系詞,後接 V-ing)。多益超高頻。", "t": "我們期待收到您的回覆。"}, "capable": {"type": "fill", "q": "She is capable ___ handling the project alone.", "o": ["to", "of", "for", "in"], "a": 1, "e": "be capable of + V-ing（有能力做…）為固定搭配。", "t": "她有能力獨自處理這個專案。"}, "responsible": {"type": "fill", "q": "He is responsible ___ managing the budget.", "o": ["of", "for", "to", "with"], "a": 1, "e": "be responsible for（負責）為固定搭配。", "t": "他負責管理預算。"}, "interested": {"type": "fill", "q": "Many clients are interested ___ our new service.", "o": ["on", "in", "for", "at"], "a": 1, "e": "be interested in（對…有興趣）為固定搭配。", "t": "許多客戶對我們的新服務有興趣。"}, "familiar": {"type": "fill", "q": "Are you familiar ___ this software?", "o": ["to", "with", "for", "at"], "a": 1, "e": "be familiar with（熟悉）為固定搭配。", "t": "你熟悉這套軟體嗎？"}, "aware": {"type": "fill", "q": "Please be aware ___ the new policy.", "o": ["with", "of", "to", "for"], "a": 1, "e": "be aware of（意識到）為固定搭配。", "t": "請留意這項新政策。"}};
+// 本輪背過待考的單字佇列
+let studiedQueue = [];
+const MINI_TRIGGER = 10; // 每背滿10個觸發
+let miniState = null;
+
+// 通用備援題（當背到的字沒有專屬題庫時，用其例句生成詞類/挖空題）
+function genericQuestion(v){
+  // 用該字的例句把目標字挖空，做「選出正確的字」題（順便練在句中的運用）
+  const ex = (v.ex||'').replace(/<\/?b>/g,'');
+  if(ex && ex.toLowerCase().includes(v.w.toLowerCase())){
+    // 干擾選項：從其他字隨機挑同詞性的字
+    const sameP = VOCAB.filter(x=>x.p===v.p && x.w!==v.w);
+    const distractors=[];
+    const used=new Set([v.w.toLowerCase()]);
+    for(let i=0;i<40 && distractors.length<3;i++){
+      const c=sameP.length?sameP[Math.floor(Math.random()*sameP.length)]:VOCAB[Math.floor(Math.random()*VOCAB.length)];
+      if(!used.has(c.w.toLowerCase())){used.add(c.w.toLowerCase());distractors.push(c.w);}
+    }
+    while(distractors.length<3){const c=VOCAB[Math.floor(Math.random()*VOCAB.length)];if(!used.has(c.w.toLowerCase())){used.add(c.w.toLowerCase());distractors.push(c.w);}}
+    const re=new RegExp(v.w,'i');
+    const q=ex.replace(re,'___');
+    let opts=[v.w,...distractors];
+    for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+    return {type:'fill',q:q,o:opts,a:opts.indexOf(v.w),t:'句中關鍵字「'+v.w+'」意思是「'+v.m+'」。',e:'根據句意與'+v.p+'用法，正確的字是 '+v.w+'（'+v.m+'）。注意它在句子中的搭配。',word:v.w};
+  }
+  // 沒有可用例句 → 詞性判斷題
+  return {type:'fill',q:'單字「'+v.w+'」（'+v.m+'）屬於哪一種詞類？',o:['名詞 n.','動詞 v.','形容詞 adj.','副詞 adv.'],
+    a:({'n.':0,'v.':1,'adj.':2,'adv.':3})[v.p]!==undefined?({'n.':0,'v.':1,'adj.':2,'adv.':3})[v.p]:0,
+    e:'「'+v.w+'」是 '+v.p+'。判斷詞類能幫你在填空題快速選對位置。',word:v.w};
+}
+
+// 依背過的字組出一份小測驗（混合：有專屬文法題的優先，其餘用通用題）
+function buildMiniQuiz(words){
+  const qs=[];
+  words.forEach(w=>{
+    const key=w.toLowerCase();
+    if(GBANK[key]){
+      const item=Object.assign({},GBANK[key]);
+      qs.push(item);
+    }else{
+      const v=VOCAB.find(x=>x.w.toLowerCase()===key);
+      if(v)qs.push(genericQuestion(v));
+    }
+  });
+  return qs;
+}
+
+function maybeTriggerMini(){
+  if(studiedQueue.length>=MINI_TRIGGER){
+    const batch=studiedQueue.slice(0,MINI_TRIGGER);
+    studiedQueue=studiedQueue.slice(MINI_TRIGGER);
+    openMiniQuiz(batch);
+  }
+}
+
+function openMiniQuiz(words){
+  miniState={qs:buildMiniQuiz(words),pos:0,score:0};
+  document.getElementById('mini-quiz-view').style.display='block';
+  document.getElementById('mini-result-view').style.display='none';
+  document.getElementById('mini-bg').classList.add('show');
+  renderMiniQuestion();
+}
+
+function renderMiniQuestion(){
+  const s=miniState;const item=s.qs[s.pos];
+  document.getElementById('mini-prog').textContent='第 '+(s.pos+1)+' / '+s.qs.length+' 題　✓ '+s.score;
+  const body=document.getElementById('mini-body');
+  const typeLabel=item.type==='order'?'句子重組 · 排出正確語序':'填空選擇 · 選出正確用法';
+  if(item.type==='fill'){
+    const qtext=item.q.replace('___','<span class="mq-blank">_____</span>');
+    body.innerHTML='<div class="mq-type">'+typeLabel+'</div><div class="mq-text">'+qtext+'</div><div class="mq-opts" id="mq-opts"></div><div class="mq-exp" id="mq-exp"></div><button class="btn pri mnext" id="mq-next">下一題 →</button>';
+    const box=document.getElementById('mq-opts');
+    item.o.forEach((opt,oi)=>{
+      const b=document.createElement('button');b.className='mq-opt';b.textContent=String.fromCharCode(65+oi)+'. '+opt;
+      b.onclick=()=>miniAnswerFill(b,oi,item);
+      box.appendChild(b);
+    });
+  }else{
+    // 重組題
+    let chips=item.words.slice();
+    for(let i=chips.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[chips[i],chips[j]]=[chips[j],chips[i]];}
+    body.innerHTML='<div class="mq-type">'+typeLabel+'</div><div class="ord-answer" id="ord-answer"></div><div class="ord-bank" id="ord-bank"></div><button class="btn sec ord-check" id="ord-check">檢查答案</button><div class="mq-exp" id="mq-exp"></div><button class="btn pri mnext" id="mq-next">下一題 →</button>';
+    const bank=document.getElementById('ord-bank');const ans=document.getElementById('ord-answer');
+    const placed=[];
+    chips.forEach((word,ci)=>{
+      const c=document.createElement('button');c.className='chip';c.textContent=word;c.dataset.idx=ci;
+      c.onclick=()=>{
+        if(c.classList.contains('placed'))return;
+        c.classList.add('placed');
+        const a=document.createElement('button');a.className='chip placed';a.textContent=word;
+        a.onclick=()=>{a.remove();c.classList.remove('placed');placed.splice(placed.indexOf(a),1);};
+        ans.appendChild(a);placed.push(a);
+      };
+      bank.appendChild(c);
+    });
+    document.getElementById('ord-check').onclick=()=>{
+      const built=placed.map(a=>a.textContent).join(' ');
+      const correct=item.answer;
+      const exp=document.getElementById('mq-exp');
+      const right=built.replace(/\s+/g,' ').trim().toLowerCase()===correct.toLowerCase();
+      if(right)s.score++;
+      let html='<div class="exp-sentence">'+(right?'✓ 正確！':'正確語序：')+'<b>'+correct+'</b></div>';
+      if(item.t)html+='<div class="exp-trans">📖 '+item.t+'</div>';
+      html+='<div class="exp-note"><b>💡 解析：</b>'+item.e+'</div>';
+      exp.innerHTML=html;
+      exp.classList.add('show');
+      document.getElementById('ord-check').disabled=true;
+      document.querySelectorAll('#ord-bank .chip,#ord-answer .chip').forEach(c=>c.style.pointerEvents='none');
+      showMiniNext();
+    };
+  }
+}
+
+function miniAnswerFill(btn,chosen,item){
+  const btns=document.querySelectorAll('#mq-opts .mq-opt');
+  btns.forEach((b,i)=>{b.disabled=true;if(i===item.a)b.classList.add('correct');});
+  if(chosen!==item.a)btn.classList.add('wrong');
+  else miniState.score++;
+  const exp=document.getElementById('mq-exp');
+  // 完整正確句子（把 ___ 換成正確答案）
+  const fullSentence=item.q.replace('___','<b>'+item.o[item.a]+'</b>');
+  let html='<div class="exp-sentence">'+fullSentence+'</div>';
+  if(item.t)html+='<div class="exp-trans">📖 '+item.t+'</div>';
+  html+='<div class="exp-note"><b>💡 解析：</b>'+item.e+'</div>';
+  exp.innerHTML=html;exp.classList.add('show');
+  showMiniNext();
+}
+
+function showMiniNext(){
+  const nx=document.getElementById('mq-next');nx.classList.add('show');
+  nx.onclick=()=>{
+    miniState.pos++;
+    if(miniState.pos>=miniState.qs.length)finishMiniQuiz();
+    else renderMiniQuestion();
+  };
+}
+
+function finishMiniQuiz(){
+  document.getElementById('mini-quiz-view').style.display='none';
+  document.getElementById('mini-result-view').style.display='block';
+  const s=miniState;const pct=Math.round(s.score/s.qs.length*100);
+  document.getElementById('mini-score').textContent=s.score+'/'+s.qs.length;
+  let msg;
+  if(pct>=80)msg='語感很穩！這批字你不只會背，還會用 🎯';
+  else if(pct>=50)msg='不錯！文法是多益的關鍵，多看解析就會進步 💪';
+  else msg='沒關係，重點是理解每題的文法觀念。答錯的觀念記下來就是收穫 📖';
+  document.getElementById('mini-rmsg').textContent=msg;
+}
+document.getElementById('mini-close').onclick=()=>{
+  document.getElementById('mini-bg').classList.remove('show');
+  miniState=null;
+};
+
+
+let order=VOCAB.map((_,i)=>i);
+let idx=0;
+
+function markStudiedToday(){
+  const today=new Date().toDateString();
+  store.todayCount=(store.todayCount||0)+1;
+  if(store.lastDay!==today){
+    const y=new Date(Date.now()-864e5).toDateString();
+    store.streak=store.lastDay===y?(store.streak||0)+1:1;
+    store.lastDay=today;
+  }
+  saveStore();updateStats();
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1600);}
+
+// ===== 統計 =====
+function updateStats(){
+  const known=Object.values(store.known).filter(Boolean).length;
+  const flag=Object.values(store.flag).filter(Boolean).length;
+  document.getElementById('s-today').textContent=store.todayCount||0;
+  document.getElementById('s-known').textContent=known;
+  document.getElementById('s-flag').textContent=flag;
+  document.getElementById('s-streak').textContent=store.streak||0;
+  const pct=Math.min(100,Math.round((store.todayCount||0)/DAILY_GOAL*100));
+  document.getElementById('dayfill').style.width=pct+'%';
+  document.getElementById('daylab').textContent=(store.todayCount||0)+' / '+DAILY_GOAL;
+  // stats panel
+  const total=VOCAB.length;
+  const kpct=Math.round(known/total*100);
+  document.getElementById('st-pct').textContent=kpct+'%';
+  document.getElementById('st-total').textContent=total;
+  document.getElementById('st-fill').style.width=kpct+'%';
+  document.getElementById('st-lab').textContent=known+' / '+total;
+}
+
+// ===== 範圍篩選 =====
+function scopeIndices(scope){
+  return VOCAB.map((_,i)=>i).filter(i=>{
+    if(scope==='unknown')return !store.known[VOCAB[i].w];
+    if(scope==='flagged')return store.flag[VOCAB[i].w];
+    if(scope==='known')return store.known[VOCAB[i].w];
+    return true;
+  });
+}
+
+// ===== 閃卡 =====
+const card=document.getElementById('card');
+function buildFlashOrder(){
+  const scope=document.getElementById('flash-scope').value;
+  order=scopeIndices(scope);
+  if(order.length===0)order=[];
+  idx=0;renderCard();
+}
+function renderCard(){
+  card.classList.remove('flipped');
+  if(order.length===0){
+    document.getElementById('f-word').textContent='🎉 無單字';
+    document.getElementById('f-pos').textContent='';
+    document.getElementById('f-phon').textContent='此範圍沒有單字';
+    document.getElementById('counter').textContent='0 / 0';
+    card.classList.remove('is-flagged');
+    return;
+  }
+  const v=VOCAB[order[idx]];
+  document.getElementById('f-pos').textContent=v.p;
+  document.getElementById('f-word').textContent=v.w;
+  document.getElementById('f-phon').textContent=v.ph;
+  document.getElementById('b-pos').textContent=v.p;
+  document.getElementById('b-mean').textContent=v.m;
+  document.getElementById('b-ex').innerHTML=v.ex;
+  document.getElementById('counter').textContent=(idx+1)+' / '+order.length;
+  card.classList.toggle('is-flagged',!!store.flag[v.w]);
+  document.getElementById('flag-btn').textContent=store.flag[v.w]?'🚩 取消標記':'🚩 標記不熟';
+  document.getElementById('known-btn').textContent=store.known[v.w]?'✓ 已熟記':'✓ 我記住了';
+}
+card.onclick=()=>{if(order.length)card.classList.toggle('flipped');};
+document.getElementById('next').onclick=()=>{
+  if(!order.length)return;
+  if(idx<order.length-1){
+    idx++;
+    markStudiedToday();
+    const v=VOCAB[order[idx]];
+    // 記錄背過的字（同一輪不重複入列）
+    if(v && !studiedQueue.includes(v.w)) studiedQueue.push(v.w);
+    renderCard();
+    maybeTriggerMini();
+  } else toast('已是最後一個 👍');
+};
+document.getElementById('prev').onclick=()=>{if(!order.length)return;if(idx>0){idx--;renderCard();}};
+document.getElementById('shuffle').onclick=()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}idx=0;renderCard();toast('已隨機排序 🔀');};
+document.getElementById('flash-scope').onchange=buildFlashOrder;
+document.getElementById('flag-btn').onclick=(e)=>{e.stopPropagation();const v=VOCAB[order[idx]];store.flag[v.w]=!store.flag[v.w];saveStore();renderCard();updateStats();toast(store.flag[v.w]?'已標記不熟 🚩':'已取消標記');};
+document.getElementById('known-btn').onclick=(e)=>{e.stopPropagation();const v=VOCAB[order[idx]];store.known[v.w]=!store.known[v.w];saveStore();renderCard();updateStats();toast(store.known[v.w]?'太棒了！已熟記 ✓':'已移除熟記');};
+
+// ===== 測驗 =====
+let quiz={list:[],pos:0,score:0,dir:'en2zh'};
+function startQuiz(){
+  const len=+document.getElementById('quiz-len').value;
+  quiz.dir=document.getElementById('quiz-dir').value;
+  const scope=document.getElementById('quiz-scope').value;
+  let pool=scopeIndices(scope);
+  if(pool.length<4){toast('此範圍單字太少（需至少4個）');return;}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  quiz.list=pool.slice(0,Math.min(len,pool.length));
+  quiz.pos=0;quiz.score=0;
+  document.getElementById('quiz-setup').style.display='none';
+  document.getElementById('quiz-done').style.display='none';
+  document.getElementById('quiz-play').style.display='block';
+  renderQuiz();
+}
+function renderQuiz(){
+  const v=VOCAB[quiz.list[quiz.pos]];
+  document.getElementById('q-progress').textContent=(quiz.pos+1)+' / '+quiz.list.length;
+  document.getElementById('q-score').textContent='✓ '+quiz.score;
+  const en2zh=quiz.dir==='en2zh';
+  document.getElementById('q-prompt').textContent=en2zh?'選出正確的中文意思':'選出正確的英文單字';
+  document.getElementById('q-word').textContent=en2zh?v.w:v.m;
+  document.getElementById('q-ph').textContent=en2zh?v.ph+' '+v.p:'';
+  // 選項
+  let pool=VOCAB.map((_,i)=>i).filter(i=>i!==quiz.list[quiz.pos]);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  let opts=[quiz.list[quiz.pos],pool[0],pool[1],pool[2]];
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  const box=document.getElementById('q-opts');box.innerHTML='';
+  opts.forEach(oi=>{
+    const ov=VOCAB[oi];
+    const b=document.createElement('button');
+    b.className='opt';
+    b.textContent=en2zh?ov.m:ov.w;
+    b.onclick=()=>answer(b,oi,opts);
+    box.appendChild(b);
+  });
+}
+function answer(btn,chosen,opts){
+  const correct=quiz.list[quiz.pos];
+  const buttons=document.querySelectorAll('#q-opts .opt');
+  buttons.forEach((b,i)=>{b.disabled=true;if(opts[i]===correct)b.classList.add('correct');});
+  if(chosen===correct){quiz.score++;}
+  else{btn.classList.add('wrong');
+    // 答錯自動標記
+    const v=VOCAB[correct];if(!store.flag[v.w]){store.flag[v.w]=true;saveStore();}
+  }
+  document.getElementById('q-score').textContent='✓ '+quiz.score;
+  setTimeout(()=>{
+    quiz.pos++;
+    if(quiz.pos>=quiz.list.length)finishQuiz();
+    else renderQuiz();
+  },850);
+}
+function finishQuiz(){
+  document.getElementById('quiz-play').style.display='none';
+  document.getElementById('quiz-done').style.display='block';
+  const pct=Math.round(quiz.score/quiz.list.length*100);
+  document.getElementById('q-final').textContent=pct+'%';
+  let msg;
+  if(pct>=90)msg='太強了！這批單字你已經掌握 🎯';
+  else if(pct>=70)msg='不錯！答錯的已自動標記，再複習一下 💪';
+  else msg='繼續加油！答錯的字已加入標記，多用閃卡複習 📖';
+  document.getElementById('q-msg').textContent=msg;
+  updateStats();renderWordlist();
+}
+document.getElementById('start-quiz').onclick=startQuiz;
+document.getElementById('quiz-again').onclick=()=>{document.getElementById('quiz-done').style.display='none';document.getElementById('quiz-setup').style.display='block';};
+
+// ===== 單字表 =====
+function renderWordlist(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  const f=document.getElementById('list-filter').value;
+  const box=document.getElementById('wordlist');box.innerHTML='';
+  let shown=0;
+  VOCAB.forEach((v,i)=>{
+    if(f==='unknown'&&store.known[v.w])return;
+    if(f==='known'&&!store.known[v.w])return;
+    if(f==='flagged'&&!store.flag[v.w])return;
+    if(q&&!(v.w.toLowerCase().includes(q)||v.m.includes(q)))return;
+    shown++;
+    const el=document.createElement('div');
+    el.className='wl-item'+(store.flag[v.w]?' flagged':'')+(store.known[v.w]?' known':'');
+    el.innerHTML=`<div class="meta"><span class="w">${v.w}</span> <span class="p">${v.p}</span><div class="m">${v.m}</div></div>
+      <button class="flag" title="標記">${store.flag[v.w]?'🚩':'🏳️'}</button>
+      <button class="know" title="熟記">${store.known[v.w]?'✓':'○'}</button>`;
+    el.querySelector('.flag').onclick=()=>{store.flag[v.w]=!store.flag[v.w];saveStore();renderWordlist();updateStats();};
+    el.querySelector('.know').onclick=()=>{store.known[v.w]=!store.known[v.w];saveStore();renderWordlist();updateStats();};
+    box.appendChild(el);
+  });
+  document.getElementById('list-count').textContent=shown+' 個';
+  if(shown===0)box.innerHTML='<div class="empty">沒有符合的單字</div>';
+}
+document.getElementById('search').oninput=renderWordlist;
+document.getElementById('list-filter').onchange=renderWordlist;
+
+// ===== 重設 =====
+document.getElementById('reset').onclick=()=>{
+  if(confirm('確定要重設所有進度嗎？此動作無法復原。')){
+    store={known:{},flag:{},todayDate:new Date().toDateString(),todayCount:0,streak:0,lastDay:''};
+    store={known:{},flag:{},custom:[],gdone:{},todayDate:new Date().toDateString(),todayCount:0,streak:0,lastDay:''};
+    saveStore();rebuildVocab();buildFlashOrder();renderWordlist();updateStats();renderGrammarMenu();toast('已重設 ⟲');
+  }
+};
+
+// ===== 匯入單字 =====
+document.getElementById('import-btn').onclick=()=>{
+  const raw=document.getElementById('import-text').value.trim();
+  if(!raw){toast('請先貼上單字');return;}
+  const lines=raw.split('\n');let added=0;
+  const existing=new Set(VOCAB.map(v=>v.w.toLowerCase()));
+  lines.forEach(line=>{
+    line=line.trim();if(!line)return;
+    const parts=line.split(',').map(s=>s.trim());
+    const w=parts[0];if(!w)return;
+    if(existing.has(w.toLowerCase()))return;
+    existing.add(w.toLowerCase());
+    store.custom.push({w:w,p:parts[1]||'',ph:parts[2]||'',m:parts[3]||'(自訂)',ex:parts[4]||''});
+    added++;
+  });
+  saveStore();rebuildVocab();buildFlashOrder();renderWordlist();updateStats();
+  document.getElementById('import-text').value='';
+  toast(added>0?('已新增 '+added+' 個單字 ＋'):'沒有新單字（可能重複）');
+};
+
+// ===== 文法課 =====
+const GRAMMAR=[
+{id:"tense",ico:"⏳",t:"時態與動詞變化",d:"12 種時態、被動語態、主動詞一致",
+ html:`<h3>1. 多益最常考的時態</h3>
+ <p>多益不會考冷僻時態，重點是看懂「時間線索字」決定動詞形式。記住關鍵詞就能秒選。</p>
+ <ul>
+ <li><b>現在簡單式</b>：習慣、事實。線索字 <b>usually, every day, always</b></li>
+ <li><b>現在進行式</b>：正在發生。線索字 <b>now, at the moment, currently</b></li>
+ <li><b>現在完成式</b>：過去到現在。線索字 <b>since, for, already, yet, recently</b></li>
+ <li><b>過去簡單式</b>：明確過去。線索字 <b>yesterday, ago, last week, in 2020</b></li>
+ <li><b>未來式</b>：will / be going to。線索字 <b>tomorrow, next, soon</b></li>
+ </ul>
+ <div class="eg"><span class="en">The company <b>has operated</b> in Asia <b>since</b> 2010.</span><br><span class="zh">公司自 2010 年起在亞洲營運。(since → 現在完成式)</span></div>
+ <h3>2. 被動語態 (be + 過去分詞)</h3>
+ <p>當「動作的承受者」當主詞時用被動。多益閱讀與填空大量出現。</p>
+ <div class="eg"><span class="en">The report <b>was submitted</b> yesterday.</span><br><span class="zh">報告昨天被提交了。</span></div>
+ <h3>3. 主詞動詞一致</h3>
+ <p>主詞單數 → 動詞加 s；複數 → 動詞原形。小心中間插入的片語干擾。</p>
+ <div class="eg"><span class="en">The list of items <b>is</b> on the desk.</span><br><span class="zh">主詞是 list(單數)，不是 items，所以用 is。</span></div>`,
+ quiz:[
+ {q:"The factory ____ in operation since 1995.",o:["is","has been","was","being"],a:1,e:"since → 現在完成式，用 has been。"},
+ {q:"All applications ____ by the HR department last week.",o:["reviewed","were reviewed","review","are reviewing"],a:1,e:"applications 是被審查的對象 + last week(過去)，用過去被動 were reviewed。"},
+ {q:"The number of employees ____ increasing every year.",o:["are","is","have","were"],a:1,e:"主詞 The number(單數)用 is；the number of 視為單數。"}
+ ]},
+{id:"pos",ico:"🧩",t:"詞類與句型結構",d:"名詞/動詞/形容詞/副詞辨識、五大句型",
+ html:`<h3>1. 用字尾判斷詞類（多益填空神技）</h3>
+ <p>看到空格不確定選哪個？先判斷該位置需要什麼詞類，再用字尾選。</p>
+ <ul>
+ <li><b>名詞</b>字尾：-tion, -ment, -ity, -ness, -ance（decision, payment, ability）</li>
+ <li><b>形容詞</b>字尾：-able, -ive, -ous, -ful, -al（reliable, active, careful）</li>
+ <li><b>副詞</b>字尾：-ly（quickly, carefully）</li>
+ <li><b>動詞</b>字尾：-ize, -ify, -ate（realize, modify, operate）</li>
+ </ul>
+ <h3>2. 位置決定詞類</h3>
+ <ul>
+ <li>冠詞 + ____ + 名詞 → 填<b>形容詞</b>（a <b>careful</b> review）</li>
+ <li>____ + 動詞 → 填<b>副詞</b>（She <b>quickly</b> replied）</li>
+ <li>動詞 + ____ → 填<b>受詞名詞</b>（make a <b>decision</b>）</li>
+ <li>be 動詞 + ____ → 填<b>形容詞</b>（is <b>productive</b>）</li>
+ </ul>
+ <div class="eg"><span class="en">The manager made a <b>careful</b> decision.</span><br><span class="zh">冠詞 a 與名詞 decision 之間 → 形容詞 careful。</span></div>
+ <h3>3. 五大基本句型</h3>
+ <p>掌握句型就能判斷句子缺什麼。重點：及物動詞後必須有受詞。</p>
+ <div class="eg"><span class="en">They <b>discussed</b> the proposal.</span><br><span class="zh">discuss 是及物動詞，後面直接接受詞（不加 about）。</span></div>`,
+ quiz:[
+ {q:"We need to make an important ____ today.",o:["decide","decision","decisive","decisively"],a:1,e:"冠詞 an + 形容詞 important + ____ → 需要名詞 decision。"},
+ {q:"The new system runs very ____.",o:["efficient","efficiency","efficiently","efficiencies"],a:2,e:"修飾動詞 runs → 用副詞 efficiently。"},
+ {q:"Please ____ the attached document before the meeting.",o:["review","reviewer","reviewable","reviewly"],a:0,e:"Please 後接原形動詞 → review。"}
+ ]},
+{id:"trap",ico:"⚠️",t:"多益常考文法陷阱",d:"介系詞、連接詞、易混淆字",
+ html:`<h3>1. 介系詞時間用法（高頻陷阱）</h3>
+ <ul>
+ <li><b>in</b> + 月份/年份/較長時間（in May, in 2024）</li>
+ <li><b>on</b> + 日期/星期（on Monday, on May 5）</li>
+ <li><b>at</b> + 確切時間點（at 3 p.m., at noon）</li>
+ <li><b>by</b>(在…之前完成) vs <b>until</b>(持續到)：Submit it <b>by</b> Friday（最晚週五前交）</li>
+ <li><b>for</b> + 一段時間 vs <b>since</b> + 時間點</li>
+ </ul>
+ <h3>2. 連接詞 vs 介系詞（最愛考）</h3>
+ <p>後面接「子句(主詞+動詞)」用連接詞；接「名詞」用介系詞。</p>
+ <div class="trap"><div class="tt">經典對比</div>
+ <span class="o">because</span>(連接詞)+ 句子 ／ <span class="o">because of</span>(介系詞)+ 名詞<br>
+ <span class="o">although</span>(連接詞)+ 句子 ／ <span class="o">despite</span>(介系詞)+ 名詞<br>
+ <span class="o">during</span>(介系詞)+ 名詞 ／ <span class="o">while</span>(連接詞)+ 句子</div>
+ <div class="eg"><span class="en"><b>Despite</b> the rain, the event continued.</span><br><span class="zh">Despite + 名詞(the rain)。若要接句子須改用 Although。</span></div>
+ <h3>3. 易混淆字</h3>
+ <div class="trap"><div class="tt">別再選錯</div>
+ <span class="x">affect</span>(動詞:影響) ／ <span class="x">effect</span>(名詞:效果)<br>
+ <span class="x">economic</span>(經濟的) ／ <span class="x">economical</span>(節省的)<br>
+ <span class="x">considerable</span>(相當大的) ／ <span class="x">considerate</span>(體貼的)</div>`,
+ quiz:[
+ {q:"____ the bad weather, the flight departed on time.",o:["Although","Despite","Because","While"],a:1,e:"後面接名詞 the bad weather → 用介系詞 Despite。Although 須接句子。"},
+ {q:"Please submit the form ____ Friday at the latest.",o:["until","by","since","during"],a:1,e:"「最晚在週五前完成」用 by；until 是「持續到」。"},
+ {q:"The merger had a positive ____ on profits.",o:["affect","effect","affects","affecting"],a:1,e:"冠詞 a + 形容詞 positive + ____ → 需名詞 effect(效果)。"}
+ ]},
+{id:"clause",ico:"🔗",t:"關係子句與假設語氣",d:"關係代名詞、分詞、假設語氣",
+ html:`<h3>1. 關係代名詞</h3>
+ <ul>
+ <li><b>who</b>：先行詞是人，當主詞（the man <b>who</b> called）</li>
+ <li><b>which</b>：先行詞是物（the report <b>which</b> was sent）</li>
+ <li><b>that</b>：人或物皆可（限定用法）</li>
+ <li><b>whose</b>：表所屬（the client <b>whose</b> order was delayed）</li>
+ </ul>
+ <div class="eg"><span class="en">The employee <b>who</b> won the award is here.</span><br><span class="zh">先行詞 employee 是人且當主詞 → who。</span></div>
+ <h3>2. 分詞構句（簡化句子）</h3>
+ <p>主動關係用 V-ing，被動關係用 V-ed。多益填空常考。</p>
+ <div class="eg"><span class="en">The goods <b>shipped</b> yesterday will arrive soon.</span><br><span class="zh">goods 被運送 → 用過去分詞 shipped。</span></div>
+ <h3>3. 假設語氣</h3>
+ <ul>
+ <li><b>與現在事實相反</b>：If + 過去式, 主詞 + would/could + 原形</li>
+ <li><b>與過去事實相反</b>：If + had + p.p., 主詞 + would have + p.p.</li>
+ </ul>
+ <div class="eg"><span class="en">If we <b>had invested</b> earlier, we <b>would have made</b> more.</span><br><span class="zh">與過去相反：had invested ... would have made。</span></div>`,
+ quiz:[
+ {q:"The candidate ____ resume impressed us got the job.",o:["who","which","whose","whom"],a:2,e:"表「他的履歷」所屬關係 → whose。"},
+ {q:"The documents ____ in the meeting are confidential.",o:["discuss","discussed","discussing","discusses"],a:1,e:"documents 被討論 → 被動關係用過去分詞 discussed。"},
+ {q:"If the manager ____ here now, she would approve it.",o:["is","was","were","be"],a:2,e:"與現在事實相反的假設，be 動詞一律用 were。"}
+ ]}
+];
+
+function renderGrammarMenu(){
+  const box=document.getElementById('g-menu');box.innerHTML='';
+  GRAMMAR.forEach(g=>{
+    const el=document.createElement('div');
+    el.className='g-card'+(store.gdone[g.id]?' studied':'');
+    el.innerHTML=`<span class="ico">${g.ico}</span><div><div class="gt">${g.t}</div><div class="gd">${g.d}</div></div><span class="done">✓ 已完成</span>`;
+    el.onclick=()=>openLesson(g.id);
+    box.appendChild(el);
+  });
+}
+function openLesson(id){
+  const g=GRAMMAR.find(x=>x.id===id);
+  document.getElementById('g-menu-view').style.display='none';
+  const v=document.getElementById('g-lesson-view');
+  v.innerHTML=`<button class="back" id="g-back">← 返回文法目錄</button>
+    <div class="lesson active"><h2>${g.ico} ${g.t}</h2>${g.html}
+    <h3>✏️ 課後練習</h3><div id="g-quiz-area"></div>
+    <button class="btn sec complete-btn" id="g-complete">✓ 標記此課完成</button></div>`;
+  document.getElementById('g-back').onclick=closeLesson;
+  document.getElementById('g-complete').onclick=()=>{store.gdone[id]=true;saveStore();renderGrammarMenu();closeLesson();toast('文法課完成 ✓');};
+  const qa=document.getElementById('g-quiz-area');
+  g.quiz.forEach((item,qi)=>{
+    const qd=document.createElement('div');qd.className='gq';
+    const qtext=item.q.replace('____','<span class="gblank">____</span>');
+    qd.innerHTML=`<div class="qtext">${qi+1}. ${qtext}</div><div class="gopts"></div><div class="gexp"></div>`;
+    const opts=qd.querySelector('.gopts');
+    item.o.forEach((opt,oi)=>{
+      const b=document.createElement('button');b.className='gopt';b.textContent=String.fromCharCode(65+oi)+'. '+opt;
+      b.onclick=()=>{
+        if(qd.dataset.done)return;qd.dataset.done='1';
+        const btns=opts.querySelectorAll('.gopt');
+        btns.forEach((bb,bi)=>{bb.disabled=true;if(bi===item.a)bb.classList.add('correct');});
+        if(oi!==item.a)b.classList.add('wrong');
+        const exp=qd.querySelector('.gexp');exp.textContent='💡 '+item.e;exp.classList.add('show');
+      };
+      opts.appendChild(b);
+    });
+    qa.appendChild(qd);
+  });
+}
+function closeLesson(){
+  document.getElementById('g-lesson-view').innerHTML='';
+  document.getElementById('g-menu-view').style.display='block';
+}
+
+// ===== 分頁 =====
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+    if(b.dataset.tab==='list')renderWordlist();
+  };
+});
+
+// init
+buildFlashOrder();
+renderWordlist();
+renderGrammarMenu();
+updateStats();
+</script>
+</body>
+</html>
