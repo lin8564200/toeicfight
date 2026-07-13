@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單字卡片盒</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --ink: #1b1f2a;
+  --ink-soft: #2a3040;
+  --paper: #f2e9d8;
+  --paper-line: #ddd0b3;
+  --rust: #b0413e;
+  --pine: #3e7c59;
+  --gold: #cf9a34;
+  --muted: #8b8578;
+  --white: #fdfaf3;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  background: var(--ink);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(207,154,52,0.06), transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(62,124,89,0.07), transparent 45%);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding: 32px 16px 80px;
+}
+
+.wrap{ max-width: 720px; margin: 0 auto; }
+
+header.top{
+  display:flex; align-items:baseline; justify-content:space-between;
+  border-bottom: 1px solid rgba(253,250,243,0.15);
+  padding-bottom: 18px; margin-bottom: 28px;
+}
+header.top h1{
+  font-family:'Fraunces', serif; font-weight:700; font-size: 30px;
+  letter-spacing: -0.01em;
+}
+header.top h1 span{ color: var(--gold); font-style: italic; font-weight: 500;}
+header.top .count{
+  font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted);
+}
+
+nav.tabs{
+  display:flex; gap: 6px; margin-bottom: 28px;
+  border-bottom: 1px solid rgba(253,250,243,0.1);
+}
+nav.tabs button{
+  flex:1; background:none; border:none; color: var(--muted);
+  font-family:'Inter'; font-size: 14px; font-weight:600; padding: 12px 8px;
+  cursor:pointer; border-bottom: 2px solid transparent; transition: all .2s;
+  letter-spacing: 0.02em;
+}
+nav.tabs button.active{ color: var(--white); border-bottom-color: var(--gold); }
+nav.tabs button:hover{ color: var(--white); }
+
+section.panel{ display:none; }
+section.panel.active{ display:block; animation: fadeIn .25s ease; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+/* ---------- 新增單字 ---------- */
+.form-card{
+  background: var(--paper); color: var(--ink); border-radius: 4px;
+  padding: 28px; position:relative;
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+}
+.form-card::before{
+  content:''; position:absolute; top:14px; left:14px; right:14px; bottom:14px;
+  border: 1px dashed var(--paper-line); pointer-events:none; border-radius: 2px;
+}
+.field{ margin-bottom: 16px; }
+.field label{
+  display:block; font-size: 11px; font-weight:700; text-transform:uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px;
+}
+.field input, .field textarea{
+  width:100%; border:none; border-bottom: 1.5px solid var(--paper-line);
+  background: transparent; font-family:'Fraunces', serif; font-size: 20px;
+  padding: 6px 2px; color: var(--ink); outline:none;
+}
+.field input:focus, .field textarea:focus{ border-bottom-color: var(--rust); }
+.field.small input{ font-family:'Inter'; font-size:15px; }
+.field textarea{ font-family:'Inter'; font-size:14px; resize:vertical; min-height:44px; }
+.row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.btn{
+  font-family:'Inter'; font-weight:700; font-size:14px; letter-spacing:0.02em;
+  border:none; border-radius: 3px; padding: 12px 22px; cursor:pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:active{ transform: scale(0.97); }
+.btn-primary{ background: var(--ink); color: var(--paper); }
+.btn-primary:hover{ box-shadow: 0 6px 16px -6px rgba(0,0,0,0.4); }
+.btn-ghost{ background:transparent; border: 1.5px solid var(--paper-line); color: var(--ink); }
+.btn-rust{ background: var(--rust); color: var(--white); }
+.btn-pine{ background: var(--pine); color: var(--white); }
+
+.hint{ font-size: 13px; color: var(--muted); margin-top:14px; line-height:1.6; }
+
+/* ---------- 單字庫列表 ---------- */
+.bank-item{
+  display:flex; align-items:center; justify-content:space-between; gap: 12px;
+  padding: 14px 4px; border-bottom: 1px solid rgba(253,250,243,0.08);
+}
+.bank-item .w{ font-family:'Fraunces', serif; font-size:18px; font-weight:600; }
+.bank-item .m{ font-size:13px; color: var(--muted); margin-top:2px; }
+.bank-item .stamp{
+  font-family:'IBM Plex Mono'; font-size:11px; padding: 3px 8px; border-radius:20px;
+  border:1px solid; white-space:nowrap;
+}
+.stamp.new{ color:var(--muted); border-color: rgba(139,133,120,0.4); }
+.stamp.learning{ color:var(--gold); border-color: var(--gold); }
+.stamp.mastered{ color:var(--pine); border-color: var(--pine); }
+.bank-item button.del{
+  background:none; border:none; color: var(--muted); font-size:18px; cursor:pointer; padding:4px 8px;
+}
+.bank-item button.del:hover{ color: var(--rust); }
+.empty{ text-align:center; color:var(--muted); padding: 60px 20px; font-size:14px; line-height:1.8; }
+
+/* ---------- 複習卡片 ---------- */
+.review-stage{ display:flex; flex-direction:column; align-items:center; }
+.due-bar{
+  font-family:'IBM Plex Mono'; font-size:12px; color: var(--muted); margin-bottom:18px;
+  display:flex; gap:16px;
+}
+.due-bar b{ color: var(--gold); }
+
+.card3d{
+  width:100%; max-width:420px; height:260px; perspective: 1200px; margin-bottom: 22px;
+  cursor:pointer;
+}
+.card3d .inner{
+  position:relative; width:100%; height:100%; transition: transform .5s;
+  transform-style: preserve-3d;
+}
+.card3d.flipped .inner{ transform: rotateY(180deg); }
+.face{
+  position:absolute; inset:0; backface-visibility:hidden; border-radius:6px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: 24px; text-align:center;
+  box-shadow: 0 20px 45px -18px rgba(0,0,0,0.55);
+}
+.face.front{ background: var(--paper); color: var(--ink); }
+.face.front .pos{ font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;}
+.face.front .word{ font-family:'Fraunces', serif; font-weight:700; font-size:38px; }
+.face.front .tap{ position:absolute; bottom:16px; font-size:11px; color:var(--muted); letter-spacing:0.05em;}
+.face.back{ background: var(--ink-soft); color: var(--white); transform: rotateY(180deg); }
+.face.back .meaning{ font-family:'Fraunces', serif; font-size:26px; font-weight:600; margin-bottom:10px;}
+.face.back .example{ font-size:13px; color: rgba(253,250,243,0.65); line-height:1.6; font-style:italic; }
+
+.rate-row{ display:flex; gap:10px; width:100%; max-width:420px; }
+.rate-row button{ flex:1; padding:14px 6px; font-size:13px; }
+
+/* ---------- 測驗 ---------- */
+.quiz-progress{
+  font-family:'IBM Plex Mono'; font-size:12px; color:var(--muted); margin-bottom:16px;
+  display:flex; justify-content:space-between;
+}
+.quiz-progress .bar{ height:3px; background: rgba(253,250,243,0.12); border-radius:2px; margin-top:8px; overflow:hidden;}
+.quiz-progress .bar div{ height:100%; background: var(--gold); transition: width .3s; }
+
+.quiz-card{
+  background: var(--paper); color:var(--ink); border-radius:6px; padding: 32px 26px;
+  text-align:center; margin-bottom:20px;
+}
+.quiz-card .qword{ font-family:'Fraunces', serif; font-weight:700; font-size:34px; margin-bottom: 6px;}
+.quiz-card .qpos{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;}
+
+.options{ display:grid; gap:10px; }
+.opt{
+  background: var(--ink-soft); border: 1.5px solid rgba(253,250,243,0.1); color: var(--white);
+  padding:14px 16px; border-radius:5px; text-align:left; font-size:15px; cursor:pointer;
+  transition: all .15s; font-family:'Inter';
+}
+.opt:hover{ border-color: var(--gold); }
+.opt.correct{ background: rgba(62,124,89,0.35); border-color: var(--pine); }
+.opt.wrong{ background: rgba(176,65,62,0.35); border-color: var(--rust); }
+.opt:disabled{ cursor:default; }
+
+.quiz-result{ text-align:center; padding: 30px 10px; }
+.quiz-result .score{ font-family:'Fraunces', serif; font-size:56px; font-weight:700; color:var(--gold); }
+.quiz-result .label{ color:var(--muted); font-size:13px; margin-bottom:20px; }
+.wrong-list{ text-align:left; max-width:420px; margin: 0 auto 24px; }
+.wrong-list .wi{ padding:10px 4px; border-bottom:1px solid rgba(253,250,243,0.08); font-size:14px; }
+.wrong-list .wi b{ color: var(--rust); }
+
+.center-actions{ display:flex; gap:10px; justify-content:center; margin-top: 10px;}
+
+@media (max-width:480px){
+  .row2{ grid-template-columns: 1fr; }
+  .face.front .word{ font-size:28px; }
+  .card3d{ height: 230px; }
+}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>單字<span>卡片盒</span></h1>
+    <div style="text-align:right;">
+      <div class="count" id="headerCount">0 張卡片</div>
+      <div class="count" id="syncStatus" style="margin-top:4px; font-size:11px;">尚未設定同步</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="add">新增單字</button>
+    <button class="tab-btn" data-tab="review">複習卡片</button>
+    <button class="tab-btn" data-tab="quiz">測驗</button>
+    <button class="tab-btn" data-tab="bank">單字庫</button>
+  </nav>
+
+  <!-- 新增單字 -->
+  <section class="panel active" id="panel-add">
+    <div class="form-card">
+      <div class="field">
+        <label>英文單字</label>
+        <input type="text" id="inWord" placeholder="例如 meticulous" autocomplete="off">
+      </div>
+      <div class="row2">
+        <div class="field small">
+          <label>詞性（選填）</label>
+          <input type="text" id="inPos" placeholder="adj. / v. / n." autocomplete="off">
+        </div>
+        <div class="field small">
+          <label>中文意思</label>
+          <input type="text" id="inMeaning" placeholder="一絲不苟的" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label>例句（選填）</label>
+        <textarea id="inExample" placeholder="She is meticulous about every detail."></textarea>
+      </div>
+      <button class="btn btn-primary" id="btnAddWord">加入卡片盒</button>
+      <div class="hint">小訣竅：中文意思盡量精簡（一個核心詞義），測驗選項會更清楚好判斷。例句留著，複習卡片翻面時會顯示，幫助你記語感而不只是背中文。</div>
+    </div>
+  </section>
+
+  <!-- 複習卡片 -->
+  <section class="panel" id="panel-review">
+    <div class="review-stage">
+      <div class="due-bar">
+        <div>今日待複習：<b id="dueCount">0</b></div>
+        <div>總卡片數：<b id="totalCount2">0</b></div>
+      </div>
+
+      <div id="reviewArea" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 測驗 -->
+  <section class="panel" id="panel-quiz">
+    <div id="quizArea"></div>
+  </section>
+
+  <!-- 單字庫 -->
+  <section class="panel" id="panel-bank">
+    <div id="bankList"></div>
+  </section>
+
+</div>
+
+<script>
+// ---------------- Storage layer ----------------
+// 想跨裝置同步：把下面 firebaseConfig 換成你自己 Firebase 專案的設定值即可。
+// 沒填設定的話，會自動退回原本的本機儲存（不同裝置不同步）。
+const firebaseConfig = {
+  apiKey: "AIzaSyDzQGwI1GdHxOlikuFkshIiEuB5qdZfbGY",
+  authDomain: "pbbm-4926e.firebaseapp.com",
+  projectId: "pbbm-4926e",
+  storageBucket: "pbbm-4926e.firebasestorage.app",
+  messagingSenderId: "323466620163",
+  appId: "1:323466620163:web:8c1765ce53f9e8d7614d36"
+};
+// 幫這份單字庫取一個代號，同一組代號的裝置會看到同一份資料。
+// 不需要帳號密碼，只要每台裝置都填一樣的代號，就會同步在一起。
+const SYNC_ID = "lin-vocab-main";
+
+const STORE_KEY = 'vocab-cards-v1';
+const hasWindowStorage = () => typeof window.storage !== 'undefined' && window.storage && typeof window.storage.get === 'function';
+
+let fbDb = null;
+let useFirebase = false;
+try{
+  if(firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE_') !== 0 && typeof firebase !== 'undefined'){
+    firebase.initializeApp(firebaseConfig);
+    fbDb = firebase.firestore();
+    useFirebase = true;
+  }
+}catch(e){ console.warn('Firebase 初始化失敗，改用本機儲存', e); useFirebase = false; }
+
+function setSyncStatus(text, ok){
+  const el = document.getElementById('syncStatus');
+  if(!el) return;
+  el.textContent = text;
+  el.style.color = ok ? 'var(--pine)' : 'var(--muted)';
+}
+
+async function loadCards(){
+  if(useFirebase){
+    try{
+      const doc = await fbDb.collection('vocabDecks').doc(SYNC_ID).get();
+      setSyncStatus('☁ 已連線同步', true);
+      return doc.exists ? (doc.data().cards || []) : [];
+    }catch(e){
+      console.error('Firestore 讀取失敗，改用本機備援', e);
+      setSyncStatus('⚠ 同步失敗，使用本機資料', false);
+    }
+  }else{
+    setSyncStatus('尚未設定同步', false);
+  }
+  if(hasWindowStorage()){
+    try{
+      const res = await window.storage.get(STORE_KEY, false);
+      return res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){ return []; }
+  }else{
+    try{ const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : []; }
+    catch(e){ return []; }
+  }
+}
+
+async function saveCards(cards){
+  if(useFirebase){
+    try{
+      await fbDb.collection('vocabDecks').doc(SYNC_ID).set({ cards, updatedAt: Date.now() });
+      setSyncStatus('☁ 已連線同步', true);
+      return;
+    }catch(e){
+      console.error('Firestore 寫入失敗，改存本機', e);
+      setSyncStatus('⚠ 同步失敗，暫存本機', false);
+    }
+  }
+  const json = JSON.stringify(cards);
+  if(hasWindowStorage()){
+    try{ await window.storage.set(STORE_KEY, json, false); }catch(e){ console.error('storage set failed', e); }
+  }else{
+    try{ localStorage.setItem(STORE_KEY, json); }catch(e){ console.error('localStorage failed', e); }
+  }
+}
+
+// 即時同步：當其他裝置更新單字庫時，這台裝置也會自動更新畫面
+function watchRemoteChanges(){
+  if(!useFirebase) return;
+  fbDb.collection('vocabDecks').doc(SYNC_ID).onSnapshot(doc => {
+    if(!doc.exists) return;
+    const remoteCards = doc.data().cards || [];
+    // 避免打斷使用者正在翻的卡片：只在非複習/測驗畫面時直接刷新
+    const onReviewOrQuiz = document.getElementById('panel-review').classList.contains('active') ||
+                            document.getElementById('panel-quiz').classList.contains('active');
+    cards = remoteCards;
+    if(!onReviewOrQuiz){ renderAll(); }
+    else{ renderAll(); } // 仍更新計數，卡片內容下次切換分頁時會是最新
+  }, err => console.error('即時同步監聽錯誤', err));
+}
+
+// ---------------- State ----------------
+let cards = [];
+let reviewQueue = [];
+let currentReviewCard = null;
+let quizState = null;
+
+const todayStr = () => new Date().toISOString().slice(0,10);
+const daysFromNow = (n) => { const d = new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+// ---------------- Init ----------------
+async function init(){
+  cards = await loadCards();
+  renderAll();
+  setupTabs();
+  watchRemoteChanges();
+  document.getElementById('btnAddWord').addEventListener('click', addWord);
+  document.getElementById('inWord').addEventListener('keydown', e=>{ if(e.key==='Enter') addWord(); });
+}
+init();
+
+function setupTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.tab;
+      document.getElementById('panel-'+tab).classList.add('active');
+      if(tab==='review') startReview();
+      if(tab==='quiz') startQuizSetup();
+      if(tab==='bank') renderBank();
+    });
+  });
+}
+
+function renderAll(){
+  document.getElementById('headerCount').textContent = cards.length + ' 張卡片';
+  document.getElementById('totalCount2').textContent = cards.length;
+  renderBank();
+}
+
+// ---------------- Add word ----------------
+async function addWord(){
+  const word = document.getElementById('inWord').value.trim();
+  const pos = document.getElementById('inPos').value.trim();
+  const meaning = document.getElementById('inMeaning').value.trim();
+  const example = document.getElementById('inExample').value.trim();
+  if(!word || !meaning){
+    document.getElementById('inWord').focus();
+    return;
+  }
+  const card = {
+    id: uid(), word, pos, meaning, example,
+    ease: 2.3, interval: 0, reps: 0, lapses: 0,
+    due: todayStr(), created: todayStr()
+  };
+  cards.push(card);
+  await saveCards(cards);
+  document.getElementById('inWord').value='';
+  document.getElementById('inPos').value='';
+  document.getElementById('inMeaning').value='';
+  document.getElementById('inExample').value='';
+  document.getElementById('inWord').focus();
+  renderAll();
+}
+
+// ---------------- Bank ----------------
+function statusOf(card){
+  if(card.reps === 0) return {label:'新卡片', cls:'new'};
+  if(card.interval >= 21) return {label:'已熟悉', cls:'mastered'};
+  return {label:'學習中', cls:'learning'};
+}
+
+function renderBank(){
+  const list = document.getElementById('bankList');
+  if(cards.length===0){
+    list.innerHTML = '<div class="empty">卡片盒是空的。<br>先到「新增單字」加入你的第一張卡片吧。</div>';
+    return;
+  }
+  const sorted = [...cards].sort((a,b)=> a.word.localeCompare(b.word));
+  list.innerHTML = sorted.map(c=>{
+    const s = statusOf(c);
+    return `<div class="bank-item">
+      <div>
+        <div class="w">${escapeHtml(c.word)} ${c.pos?`<span style="font-size:12px;color:var(--muted);font-weight:400">(${escapeHtml(c.pos)})</span>`:''}</div>
+        <div class="m">${escapeHtml(c.meaning)}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="stamp ${s.cls}">${s.label}</span>
+        <button class="del" data-id="${c.id}" title="刪除">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.del').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      cards = cards.filter(c=>c.id !== btn.dataset.id);
+      await saveCards(cards);
+      renderAll();
+    });
+  });
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+// ---------------- Review (simplified SM-2) ----------------
+function startReview(){
+  reviewQueue = cards.filter(c => c.due <= todayStr());
+  document.getElementById('dueCount').textContent = reviewQueue.length;
+  document.getElementById('totalCount2').textContent = cards.length;
+  showNextReviewCard();
+}
+
+function showNextReviewCard(){
+  const area = document.getElementById('reviewArea');
+  if(reviewQueue.length === 0){
+    area.innerHTML = `<div class="empty">${cards.length===0 ? '卡片盒是空的，先去新增單字吧。' : '今天要複習的卡片都完成了！'}<br>做得好。</div>`;
+    return;
+  }
+  currentReviewCard = reviewQueue[0];
+  const c = currentReviewCard;
+  area.innerHTML = `
+    <div class="card3d" id="flipCard">
+      <div class="inner">
+        <div class="face front">
+          <div class="pos">${c.pos ? escapeHtml(c.pos) : '&nbsp;'}</div>
+          <div class="word">${escapeHtml(c.word)}</div>
+          <div class="tap">點卡片看意思</div>
+        </div>
+        <div class="face back">
+          <div class="meaning">${escapeHtml(c.meaning)}</div>
+          ${c.example ? `<div class="example">${escapeHtml(c.example)}</div>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="rate-row" id="rateRow" style="display:none;">
+      <button class="btn btn-rust" data-r="0">不會</button>
+      <button class="btn btn-ghost" data-r="1">有點模糊</button>
+      <button class="btn btn-pine" data-r="2">會了</button>
+    </div>
+  `;
+  const flipEl = document.getElementById('flipCard');
+  flipEl.addEventListener('click', ()=>{
+    flipEl.classList.add('flipped');
+    document.getElementById('rateRow').style.display = 'flex';
+  }, {once:true});
+}
+
+document.addEventListener('click', async (e)=>{
+  if(e.target.matches('.rate-row button')){
+    const r = parseInt(e.target.dataset.r);
+    await gradeCard(currentReviewCard, r);
+  }
+});
+
+async function gradeCard(card, r){
+  // r: 0 = 不會 (fail), 1 = 有點模糊 (hard), 2 = 會了 (good)
+  card.reps += 1;
+  if(r === 0){
+    card.lapses += 1;
+    card.interval = 0;
+    card.ease = Math.max(1.3, card.ease - 0.2);
+    card.due = todayStr(); // review again today
+    reviewQueue.push(card); // requeue at end
+  } else if(r === 1){
+    card.ease = Math.max(1.3, card.ease - 0.05);
+    card.interval = Math.max(1, Math.round(card.interval * 1.2) || 1);
+    card.due = daysFromNow(card.interval);
+  } else {
+    card.ease = card.ease + 0.1;
+    card.interval = card.interval === 0 ? 1 : Math.round(card.interval * card.ease);
+    card.due = daysFromNow(card.interval);
+  }
+  reviewQueue.shift();
+  await saveCards(cards);
+  document.getElementById('dueCount').textContent = reviewQueue.length;
+  showNextReviewCard();
+}
+
+// ---------------- Quiz ----------------
+function startQuizSetup(){
+  const area = document.getElementById('quizArea');
+  if(cards.length < 4){
+    area.innerHTML = `<div class="empty">測驗需要至少 4 張卡片才能出選擇題。<br>目前只有 ${cards.length} 張，再多新增幾個單字吧。</div>`;
+    return;
+  }
+  const maxQ = Math.min(15, cards.length);
+  area.innerHTML = `
+    <div class="form-card" style="text-align:center;">
+      <div class="field small" style="text-align:left;">
+        <label>本次測驗題數</label>
+        <input type="number" id="quizLen" value="${Math.min(10,maxQ)}" min="1" max="${maxQ}">
+      </div>
+      <button class="btn btn-primary" id="startQuizBtn">開始測驗</button>
+      <div class="hint">題目會從單字庫隨機抽取，每題 4 選 1，答錯的題目結束後會列出來，直接變成你的弱點清單。</div>
+    </div>
+  `;
+  document.getElementById('startQuizBtn').addEventListener('click', ()=>{
+    const len = Math.max(1, Math.min(maxQ, parseInt(document.getElementById('quizLen').value)||10));
+    beginQuiz(len);
+  });
+}
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function beginQuiz(len){
+  const pool = shuffle(cards).slice(0, len);
+  quizState = {
+    questions: pool.map(c=>{
+      const distractors = shuffle(cards.filter(x=>x.id!==c.id)).slice(0,3).map(x=>x.meaning);
+      const options = shuffle([c.meaning, ...distractors]);
+      return { card:c, options, answer:c.meaning };
+    }),
+    idx: 0,
+    correct: 0,
+    wrongList: []
+  };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+  const area = document.getElementById('quizArea');
+  const q = quizState.questions[quizState.idx];
+  const total = quizState.questions.length;
+  const pct = Math.round((quizState.idx/total)*100);
+  area.innerHTML = `
+    <div class="quiz-progress">
+      <span>第 ${quizState.idx+1} / ${total} 題</span>
+      <span>答對 ${quizState.correct}</span>
+    </div>
+    <div class="bar"><div style="width:${pct}%"></div></div>
+    <div class="quiz-card" style="margin-top:18px;">
+      <div class="qpos">${q.card.pos ? escapeHtml(q.card.pos) : '&nbsp;'}</div>
+      <div class="qword">${escapeHtml(q.card.word)}</div>
+    </div>
+    <div class="options" id="optWrap">
+      ${q.options.map((o,i)=>`<button class="opt" data-i="${i}">${escapeHtml(o)}</button>`).join('')}
+    </div>
+  `;
+  document.querySelectorAll('#optWrap .opt').forEach(btn=>{
+    btn.addEventListener('click', ()=> handleAnswer(btn, q));
+  });
+}
+
+function handleAnswer(btn, q){
+  const chosen = btn.textContent;
+  const correct = chosen === q.answer;
+  document.querySelectorAll('#optWrap .opt').forEach(b=>{
+    b.disabled = true;
+    if(b.textContent === q.answer) b.classList.add('correct');
+    else if(b === btn && !correct) b.classList.add('wrong');
+  });
+  if(correct){ quizState.correct++; }
+  else{ quizState.wrongList.push(q); }
+
+  setTimeout(()=>{
+    quizState.idx++;
+    if(quizState.idx < quizState.questions.length){
+      renderQuizQuestion();
+    }else{
+      renderQuizResult();
+    }
+  }, 700);
+}
+
+function renderQuizResult(){
+  const area = document.getElementById('quizArea');
+  const total = quizState.questions.length;
+  const pct = Math.round((quizState.correct/total)*100);
+  area.innerHTML = `
+    <div class="quiz-result">
+      <div class="score">${quizState.correct}/${total}</div>
+      <div class="label">正確率 ${pct}%</div>
+      ${quizState.wrongList.length ? `
+        <div class="wrong-list">
+          ${quizState.wrongList.map(q=>`<div class="wi"><b>${escapeHtml(q.card.word)}</b> — ${escapeHtml(q.answer)}</div>`).join('')}
+        </div>
+      ` : '<div class="hint" style="text-align:center;">全對！這批單字已經很熟了。</div>'}
+      <div class="center-actions">
+        <button class="btn btn-ghost" id="backBtn">回到設定</button>
+        <button class="btn btn-primary" id="retryBtn">再測一次</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('backBtn').addEventListener('click', startQuizSetup);
+  document.getElementById('retryBtn').addEventListener('click', ()=> beginQuiz(total));
+}
+</script>
+</body>
+</html>
